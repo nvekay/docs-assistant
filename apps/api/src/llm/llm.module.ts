@@ -13,6 +13,7 @@ export function createLlmProvider(config: AppConfig): LlmProvider {
       model: config.ANTHROPIC_MODEL,
       effort: config.ANTHROPIC_EFFORT,
       maxTokens: config.LLM_MAX_TOKENS,
+      fallback: config.ANTHROPIC_FALLBACK,
     });
   }
   return new FakeLlmProvider(config.FAKE_LLM_DELAY_MS);

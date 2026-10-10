@@ -33,14 +33,15 @@ services:
         value: anthropic
       - key: ANTHROPIC_API_KEY
         sync: false
+      # Cheapest current model: about $0.0005 per question with the limits below
       - key: ANTHROPIC_MODEL
-        value: claude-opus-5-5
+        value: claude-haiku-5-5
       - key: ANTHROPIC_EFFORT
         value: low
       - key: PRICE_INPUT_PER_MTOK
-        value: '4'
+        value: '0.1'
       - key: PRICE_OUTPUT_PER_MTOK
-        value: '20'
+        value: '0.5'
       - key: LLM_MAX_TOKENS
         value: '2000'
       - key: DAILY_TOKEN_LIMIT_PER_USER

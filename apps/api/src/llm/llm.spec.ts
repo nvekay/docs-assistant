@@ -83,6 +83,13 @@ describe('config and provider selection', () => {
   it('builds the anthropic provider with a key', () => {
     const config = loadConfig({ ...baseEnv, LLM_PROVIDER: 'anthropic', ANTHROPIC_API_KEY: 'test-key' });
     expect(createLlmProvider(config).name).toBe('anthropic');
-    expect(config.ANTHROPIC_MODEL).toBe('claude-opus-5-5');
+    // Cheap by default: Haiku, a capped answer, prices that match it, no beta fallback
+    expect(config).toMatchObject({
+      ANTHROPIC_MODEL: 'claude-haiku-5-5',
+      LLM_MAX_TOKENS: 2000,
+      PRICE_INPUT_PER_MTOK: 0.1,
+      PRICE_OUTPUT_PER_MTOK: 0.5,
+      ANTHROPIC_FALLBACK: false,
+    });
   });
 });

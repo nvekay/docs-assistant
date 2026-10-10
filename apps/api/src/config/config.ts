@@ -17,16 +17,21 @@ const configSchema = z
     LLM_PROVIDER: z.enum(['fake', 'anthropic']).default('fake'),
 
     ANTHROPIC_API_KEY: z.string().optional(),
-    ANTHROPIC_MODEL: z.string().default('claude-opus-5-5'),
+    // Haiku 5.5 is the cheapest current model and plenty for answering from given fragments
+    ANTHROPIC_MODEL: z.string().default('claude-haiku-5-5'),
     ANTHROPIC_EFFORT: z.enum(['low', 'medium', 'high', 'xhigh', 'max']).default('low'),
+    /** Opt-in server-side retry on another model when the requested one declines (beta) */
+    ANTHROPIC_FALLBACK: z.preprocess((v) => v === 'true' || v === '1', z.boolean()),
 
     /** Pause between words of the fake model, to make streaming visible without an API key */
     FAKE_LLM_DELAY_MS: z.coerce.number().int().min(0).max(1000).default(0),
 
-    LLM_MAX_TOKENS: z.coerce.number().int().positive().default(16000),
+    /** Caps the answer (thinking included), so one request has a known maximum cost */
+    LLM_MAX_TOKENS: z.coerce.number().int().positive().default(2000),
 
-    PRICE_INPUT_PER_MTOK: z.coerce.number().nonnegative().default(4),
-    PRICE_OUTPUT_PER_MTOK: z.coerce.number().nonnegative().default(20),
+    // Claude Haiku 5.5 list prices (USD per million tokens, prompts up to 100k tokens)
+    PRICE_INPUT_PER_MTOK: z.coerce.number().nonnegative().default(0.1),
+    PRICE_OUTPUT_PER_MTOK: z.coerce.number().nonnegative().default(0.5),
     DAILY_TOKEN_LIMIT_PER_USER: z.coerce.number().int().positive().default(50000),
     /** Hard cap for the whole demo per day, so a public deployment can't run up the API bill */
     DAILY_TOKEN_LIMIT_GLOBAL: z.coerce.number().int().positive().default(1_000_000),

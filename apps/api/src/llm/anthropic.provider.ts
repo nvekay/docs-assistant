@@ -8,6 +8,8 @@ export interface AnthropicProviderOptions {
   model: string;
   effort: Effort;
   maxTokens: number;
+  /** Retry on a fallback model when the requested one declines for policy reasons (beta) */
+  fallback: boolean;
 }
 
 export class AnthropicProvider implements LlmProvider {
@@ -19,20 +21,20 @@ export class AnthropicProvider implements LlmProvider {
   }
 
   async *streamChat({ system, messages, signal }: ChatRequestOptions): AsyncIterable<LlmStreamEvent> {
-    const stream = this.client.beta.messages.stream(
-      {
-        model: this.options.model,
-        max_tokens: this.options.maxTokens,
-        system,
-        messages,
-        // Thinking is adaptive by default on current Claude models; effort sets how much it thinks.
-        output_config: { effort: this.options.effort },
-        // If a safety classifier declines, the API retries on a suitable fallback model in the same call.
-        betas: ['server-side-fallback-2026-07-01'],
-        fallbacks: 'default',
-      },
-      { signal },
-    );
+    const params = {
+      model: this.options.model,
+      max_tokens: this.options.maxTokens,
+      system,
+      messages,
+      // Thinking is adaptive on current Claude models; effort sets how much it thinks (and so the cost)
+      output_config: { effort: this.options.effort },
+    };
+    const stream = this.options.fallback
+      ? this.client.beta.messages.stream(
+          { ...params, betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default' },
+          { signal },
+        )
+      : this.client.messages.stream(params, { signal });
 
     for await (const event of stream) {
       if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
