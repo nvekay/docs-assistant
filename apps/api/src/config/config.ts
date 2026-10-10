@@ -9,7 +9,17 @@ const configSchema = z
   .object({
     NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
     DATABASE_URL: z.string().min(1),
-    REDIS_URL: z.string().min(1),
+    // A REST (https://) URL or a plain redis:// URL to a TLS-only host connects and then gets dropped,
+    // which only shows up later as endless "read ECONNRESET"; reject those at startup instead
+    REDIS_URL: z
+      .string()
+      .min(1)
+      .refine((url) => /^rediss?:\/\//.test(url), {
+        message: 'must be a redis:// or rediss:// URL (for Upstash: Connect -> ioredis, not the https REST URL)',
+      })
+      .refine((url) => !/^redis:\/\/[^/]*upstash\.io/.test(url), {
+        message: 'Upstash requires TLS: use the rediss:// URL (two s) with the password',
+      }),
     PORT: z.coerce.number().int().positive().default(3001),
     CORS_ORIGIN: z.string().default('http://localhost:3000'),
 

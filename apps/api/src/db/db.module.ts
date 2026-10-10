@@ -4,6 +4,19 @@ import { APP_CONFIG, AppConfig } from '../config/config';
 
 export const PG_POOL = Symbol('PG_POOL');
 
+/**
+ * Managed Postgres (Neon) URLs carry sslmode=require. pg warns that it will change what that
+ * means, so the mode is taken out of the URL and TLS is set explicitly with full certificate
+ * verification (Neon uses publicly trusted certificates). Local docker URLs have no sslmode.
+ */
+export function postgresConnection(url: string): { connectionString: string; ssl?: { rejectUnauthorized: true } } {
+  const parsed = new URL(url);
+  const mode = parsed.searchParams.get('sslmode');
+  if (!mode || mode === 'disable') return { connectionString: url };
+  parsed.searchParams.delete('sslmode');
+  return { connectionString: parsed.toString(), ssl: { rejectUnauthorized: true } };
+}
+
 @Global()
 @Module({
   providers: [
@@ -11,11 +24,11 @@ export const PG_POOL = Symbol('PG_POOL');
       provide: PG_POOL,
       inject: [APP_CONFIG],
       useFactory: (config: AppConfig) => {
+        const { connectionString, ssl } = postgresConnection(config.DATABASE_URL);
         const pool = new Pool({
-          connectionString: config.DATABASE_URL,
+          connectionString,
+          ssl,
           max: 10,
-          // Neon and other managed Postgres require TLS; local docker does not
-          ssl: config.DATABASE_URL.includes('sslmode=require') ? { rejectUnauthorized: false } : undefined,
           // Neon suspends idle compute and drops its connections; don't hold idle ones for long
           idleTimeoutMillis: 60_000,
         });
