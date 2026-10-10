@@ -29,6 +29,8 @@ const configSchema = z
     ANTHROPIC_API_KEY: z.string().optional(),
     // Haiku 5.5 is the cheapest current model and plenty for answering from given fragments
     ANTHROPIC_MODEL: z.string().default('claude-haiku-5-5'),
+    /** Only for API keys not scoped to a workspace: the workspace ID from the Claude Console */
+    ANTHROPIC_WORKSPACE_ID: z.preprocess(emptyToUndefined, z.string().optional()),
     ANTHROPIC_EFFORT: z.enum(['low', 'medium', 'high', 'xhigh', 'max']).default('low'),
     /** Opt-in server-side retry on another model when the requested one declines (beta) */
     ANTHROPIC_FALLBACK: z.preprocess((v) => v === 'true' || v === '1', z.boolean()),

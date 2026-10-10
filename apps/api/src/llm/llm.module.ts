@@ -14,6 +14,7 @@ export function createLlmProvider(config: AppConfig): LlmProvider {
       effort: config.ANTHROPIC_EFFORT,
       maxTokens: config.LLM_MAX_TOKENS,
       fallback: config.ANTHROPIC_FALLBACK,
+      workspaceId: config.ANTHROPIC_WORKSPACE_ID,
     });
   }
   return new FakeLlmProvider(config.FAKE_LLM_DELAY_MS);

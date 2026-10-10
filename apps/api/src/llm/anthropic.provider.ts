@@ -10,6 +10,8 @@ export interface AnthropicProviderOptions {
   maxTokens: number;
   /** Retry on a fallback model when the requested one declines for policy reasons (beta) */
   fallback: boolean;
+  /** Needed only for keys that are not scoped to a workspace (the API then asks which one to bill) */
+  workspaceId?: string;
 }
 
 export class AnthropicProvider implements LlmProvider {
@@ -17,7 +19,10 @@ export class AnthropicProvider implements LlmProvider {
   private readonly client: Anthropic;
 
   constructor(private readonly options: AnthropicProviderOptions) {
-    this.client = new Anthropic({ apiKey: options.apiKey });
+    this.client = new Anthropic({
+      apiKey: options.apiKey,
+      defaultHeaders: options.workspaceId ? { 'anthropic-workspace-id': options.workspaceId } : undefined,
+    });
   }
 
   async *streamChat({ system, messages, signal }: ChatRequestOptions): AsyncIterable<LlmStreamEvent> {
