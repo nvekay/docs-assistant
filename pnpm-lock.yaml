@@ -229,9 +229,6 @@ importers:
       ioredis:
         specifier: ^6.0.0
         version: 6.0.0(supports-color@8.1.1)
-      openai:
-        specifier: ^7.31.0
-        version: 7.31.0(undici@8.11.2)(zod@4.6.5)
       pdf-parse:
         specifier: ^2.4.5
         version: 2.4.5
@@ -3815,30 +3812,6 @@ packages:
   onetime@5.1.2:
     resolution: {integrity: sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==}
     engines: {node: '>=6'}
-
-  openai@7.31.0:
-    resolution: {integrity: sha512-ZGAzauuYb0DdB53qVbIR+X8rdmNtWgiElrrMthbZCVreLcIsQJBwzAIWUbpB2FkQu2Cj6OJ9zJR1EKMUYn4/SQ==}
-    engines: {node: '>=22.0.0'}
-    peerDependencies:
-      '@aws-sdk/credential-provider-node': '>=3.972.0 <4'
-      '@smithy/hash-node': '>=4.3.0 <5'
-      '@smithy/signature-v4': '>=5.4.0 <6'
-      undici: '>=5 <9'
-      ws: ^8.21.0
-      zod: ^3.25 || ^4.0
-    peerDependenciesMeta:
-      '@aws-sdk/credential-provider-node':
-        optional: true
-      '@smithy/hash-node':
-        optional: true
-      '@smithy/signature-v4':
-        optional: true
-      undici:
-        optional: true
-      ws:
-        optional: true
-      zod:
-        optional: true
 
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
@@ -8767,11 +8740,6 @@ snapshots:
   onetime@5.1.2:
     dependencies:
       mimic-fn: 2.1.0
-
-  openai@7.31.0(undici@8.11.2)(zod@4.6.5):
-    optionalDependencies:
-      undici: 8.11.2
-      zod: 4.6.5
 
   optionator@0.9.4:
     dependencies:

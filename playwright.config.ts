@@ -24,7 +24,7 @@ export default defineConfig({
       command: 'pnpm --filter @docs-assistant/api start',
       url: 'http://localhost:3001/health',
       reuseExistingServer: !process.env.CI,
-      env: { RUN_WORKER_IN_API: 'true', LLM_PROVIDER: 'fake', EMBEDDING_PROVIDER: 'fake', FAKE_LLM_DELAY_MS: '40' },
+      env: { RUN_WORKER_IN_API: 'true', LLM_PROVIDER: 'fake', FAKE_LLM_DELAY_MS: '40' },
     },
     {
       command: 'pnpm --filter @docs-assistant/web start',

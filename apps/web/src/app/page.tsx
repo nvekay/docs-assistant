@@ -14,8 +14,8 @@ const FEATURES = [
     text: 'Tokens arrive as they are generated over Server-Sent Events. Closing the tab stops the model request.',
   },
   {
-    title: 'Any LLM provider',
-    text: 'Claude or OpenAI behind one adapter, chosen by an environment variable. A keyless fake model runs tests for free.',
+    title: 'Powered by Claude',
+    text: 'Answers are written by Claude behind a provider interface. Search runs on local embeddings, and a keyless fake model runs tests for free.',
   },
   {
     title: 'Cost control',
@@ -43,7 +43,7 @@ const STACK = [
   'NestJS',
   'PostgreSQL + pgvector',
   'Redis + BullMQ',
-  'Claude / OpenAI API',
+  'Claude API',
   'Tailwind CSS',
 ];
 

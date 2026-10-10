@@ -13,16 +13,12 @@ const configSchema = z
     PORT: z.coerce.number().int().positive().default(3001),
     CORS_ORIGIN: z.string().default('http://localhost:3000'),
 
-    LLM_PROVIDER: z.enum(['fake', 'anthropic', 'openai']).default('fake'),
-    EMBEDDING_PROVIDER: z.enum(['fake', 'openai']).default('fake'),
+    /** anthropic = Claude; fake = keyless stand-in for local development and tests */
+    LLM_PROVIDER: z.enum(['fake', 'anthropic']).default('fake'),
 
     ANTHROPIC_API_KEY: z.string().optional(),
     ANTHROPIC_MODEL: z.string().default('claude-opus-5-5'),
     ANTHROPIC_EFFORT: z.enum(['low', 'medium', 'high', 'xhigh', 'max']).default('low'),
-
-    OPENAI_API_KEY: z.string().optional(),
-    OPENAI_CHAT_MODEL: z.string().optional(),
-    OPENAI_EMBEDDING_MODEL: z.string().default('text-embedding-3-small'),
 
     /** Pause between words of the fake model, to make streaming visible without an API key */
     FAKE_LLM_DELAY_MS: z.coerce.number().int().min(0).max(1000).default(0),
@@ -37,7 +33,7 @@ const configSchema = z
     CHAT_RATE_LIMIT_PER_MINUTE: z.coerce.number().int().positive().default(10),
 
     RETRIEVAL_TOP_K: z.coerce.number().int().min(1).max(20).default(6),
-    /** Overrides the embedding provider's own relevance threshold (cosine similarity, 0..1) */
+    /** Overrides the default relevance threshold of the keyword embeddings (cosine similarity, 0..1) */
     RETRIEVAL_MIN_SCORE: z.preprocess(emptyToUndefined, z.coerce.number().min(0).max(1).optional()),
 
     ADMIN_EMAIL: z.string().email().default('admin@example.com'),
@@ -55,13 +51,6 @@ const configSchema = z
     if (c.LLM_PROVIDER === 'anthropic' && !c.ANTHROPIC_API_KEY) {
       ctx.addIssue({ code: 'custom', path: ['ANTHROPIC_API_KEY'], message: 'required when LLM_PROVIDER=anthropic' });
     }
-    if (c.LLM_PROVIDER === 'openai' && (!c.OPENAI_API_KEY || !c.OPENAI_CHAT_MODEL)) {
-      ctx.addIssue({
-        code: 'custom',
-        path: ['OPENAI_CHAT_MODEL'],
-        message: 'OPENAI_API_KEY and OPENAI_CHAT_MODEL are required when LLM_PROVIDER=openai',
-      });
-    }
     if (c.NODE_ENV === 'production' && (c.ADMIN_PASSWORD === 'change-me' || c.JWT_SECRET === 'change-me-too')) {
       ctx.addIssue({
         code: 'custom',
@@ -75,9 +64,6 @@ const configSchema = z
         path: ['DEMO_VIEWER_EMAIL'],
         message: 'set both DEMO_VIEWER_EMAIL and DEMO_VIEWER_PASSWORD, or neither',
       });
-    }
-    if (c.EMBEDDING_PROVIDER === 'openai' && !c.OPENAI_API_KEY) {
-      ctx.addIssue({ code: 'custom', path: ['OPENAI_API_KEY'], message: 'required when EMBEDDING_PROVIDER=openai' });
     }
   });
 

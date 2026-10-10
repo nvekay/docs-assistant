@@ -61,7 +61,6 @@ jobs:
       DATABASE_URL: postgres://docs:docs@localhost:5432/docs_assistant
       REDIS_URL: redis://localhost:6379
       LLM_PROVIDER: fake
-      EMBEDDING_PROVIDER: fake
       ADMIN_EMAIL: admin@example.com
       ADMIN_PASSWORD: ci-admin-password
       JWT_SECRET: ci-jwt-secret

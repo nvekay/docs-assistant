@@ -37,10 +37,6 @@ services:
         value: claude-opus-5-5
       - key: ANTHROPIC_EFFORT
         value: low
-      # Keyword embeddings (hashed bag of words): free and keyless, matches by shared words.
-      # For semantic search set this to openai and add OPENAI_API_KEY, then reindex the documents.
-      - key: EMBEDDING_PROVIDER
-        value: fake
       - key: PRICE_INPUT_PER_MTOK
         value: '4'
       - key: PRICE_OUTPUT_PER_MTOK

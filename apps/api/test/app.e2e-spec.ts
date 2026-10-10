@@ -12,7 +12,7 @@ import { PG_POOL } from '../src/db/db.module';
 
 /**
  * The whole API against real Postgres (pgvector) and Redis in throwaway containers.
- * The LLM and embeddings are the keyless fakes, and the ingestion worker runs in-process,
+ * The LLM is the keyless fake, embeddings are the local keyword ones, and the ingestion worker runs in-process,
  * so upload -> queue -> index -> chat is exercised exactly as in production.
  */
 
@@ -68,7 +68,6 @@ describe('Docs Assistant API (e2e)', () => {
       DATABASE_URL: postgres.getConnectionUri(),
       REDIS_URL: redis.getConnectionUrl(),
       LLM_PROVIDER: 'fake',
-      EMBEDDING_PROVIDER: 'fake',
       RUN_WORKER_IN_API: 'true',
       CHAT_RATE_LIMIT_PER_MINUTE: String(RATE_LIMIT),
       DAILY_TOKEN_LIMIT_PER_USER: '50000',

@@ -4,8 +4,8 @@ An AI support chat that answers questions from your product documentation, **cit
 comes from**, and says “the docs don’t cover this” instead of guessing.
 
 Upload Markdown, PDF or web pages in the admin panel; a background worker indexes them into PostgreSQL + pgvector;
-customers ask questions in a streaming chat. Claude or OpenAI is chosen by an environment variable, and a keyless
-fake model makes local development and tests free.
+customers ask questions in a streaming chat answered by Claude. Search runs on local keyword embeddings, so Claude is
+the only paid API, and a keyless fake model makes local development and tests free.
 
 <!-- Live demo: add the Vercel URL here after deployment -->
 
@@ -16,7 +16,7 @@ fake model makes local development and tests free.
 | ![Admin panel](docs/screenshots/admin.png) | ![Chat on a phone](docs/screenshots/chat-mobile.png) |
 
 > Screenshots are taken with the keyless fake model (`LLM_PROVIDER=fake`), which answers with the best-matching
-> sentence of the top source. With Claude or OpenAI the answers are written by the model, with the same citations.
+> sentence of the top source. With Claude the answers are written by the model, with the same citations.
 
 ## Features
 
@@ -25,8 +25,8 @@ fake model makes local development and tests free.
 - **Honest “not covered”.** Chunks below a relevance threshold never reach the model; with nothing relevant the
   model is told so and declines.
 - **Streaming over Server-Sent Events**, with a Stop button. Closing the tab aborts the upstream model request.
-- **Provider-agnostic LLM layer.** `LlmProvider` / `EmbeddingProvider` interfaces with Anthropic, OpenAI and fake
-  implementations; switching is a config change.
+- **Pluggable model layer.** `LlmProvider` / `EmbeddingProvider` interfaces: Claude and a keyless fake for chat,
+  local keyword embeddings for search. The services never import a vendor SDK directly.
 - **Background ingestion.** Upload → BullMQ job → extract (Markdown, PDF, HTML) → chunk (~800 tokens, 100 overlap)
   → embed in batches → atomic swap of a document’s chunks. 4 attempts with exponential backoff, then `failed` with
   the reason shown in the admin panel.
@@ -52,7 +52,7 @@ flowchart LR
   end
   PG[(PostgreSQL + pgvector<br/>Neon)]
   Redis[(Redis<br/>Upstash)]
-  LLM[Claude / OpenAI]
+  LLM[Claude API]
 
   UI --> Web --> API
   API -- enqueue --> Redis
@@ -61,7 +61,6 @@ flowchart LR
   API -- vector search, messages, usage --> PG
   API -- rate limit --> Redis
   API -- stream --> LLM
-  Worker -- embeddings --> LLM
 ```
 
 **How a question is answered**
@@ -83,12 +82,12 @@ flowchart LR
 | Worker as a second entry point of the API package | Shares config, DB and provider modules; on free hosting it can run inside the API process            |
 | POST + SSE read with `fetch`                      | The question goes in the body; EventSource only supports GET                                         |
 | Browser talks only to the Next.js origin          | `/api/*` is proxied, so the visitor cookie is first-party and no CORS is needed                      |
-| Fake LLM and embeddings                           | Deterministic, free tests of the full pipeline, including the browser tests in CI                    |
+| Fake LLM, local keyword embeddings                | Deterministic, free tests of the full pipeline, including the browser tests in CI                    |
 
 ## Stack
 
 Next.js 16, React 19, TypeScript, Tailwind CSS 4, TanStack Query · NestJS 11, BullMQ, PostgreSQL 16 + pgvector,
-Redis · Anthropic and OpenAI SDKs · Zod (shared schemas) · Jest, Testcontainers, Playwright · pnpm workspaces,
+Redis · Anthropic SDK (Claude) · Zod (shared schemas) · Jest, Testcontainers, Playwright · pnpm workspaces,
 GitHub Actions.
 
 ```
@@ -128,18 +127,16 @@ pnpm seed
 
 Admin login: `ADMIN_EMAIL` / `ADMIN_PASSWORD` from `.env`.
 
-### Using real models
+### Using Claude
 
 Set in `.env`:
 
 ```bash
-LLM_PROVIDER=anthropic          # or openai (then also OPENAI_CHAT_MODEL)
+LLM_PROVIDER=anthropic
 ANTHROPIC_API_KEY=...
-EMBEDDING_PROVIDER=openai       # text-embedding-3-small, 1536 dimensions
-OPENAI_API_KEY=...
 ```
 
-After switching embedding providers, reindex the documents (vectors from different models aren’t comparable).
+Search needs no key: embeddings are computed locally from the words of each chunk.
 
 ## Tests
 
@@ -162,8 +159,7 @@ Free tiers: **Neon** (Postgres), **Upstash** (Redis), **Render** (API), **Vercel
 2. **Upstash.** Create a Redis database (eviction off) and copy the `rediss://` URL.
 3. **Render.** New → Blueprint → this repository. `render.yaml` creates the API service; enter the secrets
    (`DATABASE_URL`, `REDIS_URL`, `ANTHROPIC_API_KEY`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`) in the dashboard.
-   The blueprint uses keyword embeddings, so only an Anthropic key is needed; for semantic search set
-   `EMBEDDING_PROVIDER=openai`, add `OPENAI_API_KEY` and reindex the documents. On the free plan the worker runs inside the API (`RUN_WORKER_IN_API=true`); with a paid plan add a
+   Claude is the only paid API. On the free plan the worker runs inside the API (`RUN_WORKER_IN_API=true`); with a paid plan add a
    Background Worker with start command `node apps/api/dist/worker.js` and set it to `false`.
 4. **Vercel.** Import the repository with root directory `apps/web`. Environment variables:
    `API_URL` (the Render URL), and optionally `NEXT_PUBLIC_GITHUB_URL`, `NEXT_PUBLIC_DEMO_VIEWER_EMAIL`,
@@ -183,5 +179,6 @@ command quota.
 - Visitors are anonymous: clearing cookies resets their limits, which is why there is also a global daily budget.
 - Token budgets are checked before a request, so one in-flight answer can go slightly over the limit.
 - The fake model is for development and tests only; it doesn’t write answers, it quotes the best-matching sentence.
-- The live demo uses keyword embeddings (hashed bag of words) to stay on one paid API. They match shared words,
-  not meaning, so a question phrased with synonyms can miss; OpenAI embeddings fix that with a config change.
+- Search uses keyword embeddings (hashed bag of words), since Anthropic has no embeddings API. They match shared
+  words, not meaning, so a question phrased with synonyms (“cost” vs “price”) can miss. A semantic embedding
+  model can be added behind the same `EmbeddingProvider` interface.

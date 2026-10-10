@@ -1,5 +1,5 @@
 /**
- * Provider-neutral contracts. Every chat model (Claude, OpenAI, the fake one used in tests)
+ * Provider-neutral contracts. Every chat model (Claude, the fake one used in tests)
  * implements LlmProvider, so the chat service never imports a vendor SDK directly.
  */
 

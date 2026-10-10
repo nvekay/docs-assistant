@@ -1,6 +1,7 @@
 import { loadConfig } from '../config/config';
 import { calculateCostUsd } from './cost';
-import { FakeEmbeddingProvider, FakeLlmProvider } from './fake.provider';
+import { FakeLlmProvider } from './fake.provider';
+import { KeywordEmbeddingProvider } from './keyword-embeddings';
 import { createLlmProvider } from './llm.module';
 import { LlmStreamEvent } from './llm.types';
 
@@ -40,11 +41,11 @@ describe('FakeLlmProvider', () => {
   });
 });
 
-describe('FakeEmbeddingProvider', () => {
+describe('KeywordEmbeddingProvider', () => {
   const cosine = (a: number[], b: number[]) => a.reduce((s, v, i) => s + v * b[i], 0);
 
   it('returns normalized 1536-dim vectors where similar texts score higher', async () => {
-    const [q, near, far] = await new FakeEmbeddingProvider().embed([
+    const [q, near, far] = await new KeywordEmbeddingProvider().embed([
       'how to reset my password',
       'To reset your password open settings',
       'Invoices are sent monthly by email',
@@ -55,7 +56,7 @@ describe('FakeEmbeddingProvider', () => {
   });
 
   it('ignores function words, so an unrelated question stays below the relevance cutoff', async () => {
-    const provider = new FakeEmbeddingProvider();
+    const provider = new KeywordEmbeddingProvider();
     const [q, doc] = await provider.embed([
       'What is the capital of Peru?',
       'To reset your password, open the Settings page. The link is valid for 30 minutes.',
