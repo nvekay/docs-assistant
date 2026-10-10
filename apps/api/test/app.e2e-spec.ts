@@ -108,7 +108,7 @@ describe('Docs Assistant API (e2e)', () => {
 
   it('reports health', async () => {
     const res = await request(app.getHttpServer()).get('/health').expect(200);
-    expect(res.body).toEqual({ status: 'ok', database: 'ok', llmProvider: 'fake' });
+    expect(res.body).toEqual({ status: 'ok', database: 'ok', redis: 'ok', llmProvider: 'fake' });
   });
 
   describe('admin auth', () => {

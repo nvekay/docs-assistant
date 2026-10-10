@@ -1,4 +1,4 @@
-import { Global, Inject, Module, OnApplicationShutdown } from '@nestjs/common';
+import { Global, Inject, Logger, Module, OnApplicationShutdown } from '@nestjs/common';
 import { ConnectionOptions, Queue } from 'bullmq';
 import { APP_CONFIG, AppConfig } from '../config/config';
 
@@ -28,8 +28,13 @@ export const INGESTION_JOB_OPTIONS = {
     {
       provide: INGESTION_QUEUE,
       inject: [APP_CONFIG],
-      useFactory: (config: AppConfig) =>
-        new Queue<IngestionJobData>(INGESTION_QUEUE_NAME, { connection: redisConnection(config) }),
+      useFactory: (config: AppConfig) => {
+        const queue = new Queue<IngestionJobData>(INGESTION_QUEUE_NAME, { connection: redisConnection(config) });
+        // Without a listener BullMQ prints bare "read ECONNRESET" errors with no hint where they came from
+        const logger = new Logger('IngestionQueue');
+        queue.on('error', (error) => logger.warn(`Redis connection: ${error.message}`));
+        return queue;
+      },
     },
   ],
   exports: [INGESTION_QUEUE],

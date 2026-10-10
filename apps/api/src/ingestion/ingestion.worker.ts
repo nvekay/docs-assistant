@@ -43,6 +43,9 @@ export function startIngestionWorker(config: AppConfig, ingestion: IngestionServ
     }
   });
 
+  // Connection drops are retried by BullMQ; the listener names them in the logs
+  worker.on('error', (error) => logger.warn(`Redis connection: ${error.message}`));
+
   logger.log(`Listening on queue "${INGESTION_QUEUE_NAME}"`);
   return worker;
 }
