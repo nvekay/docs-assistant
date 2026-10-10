@@ -161,8 +161,9 @@ Free tiers: **Neon** (Postgres), **Upstash** (Redis), **Render** (API), **Vercel
    The first migration enables the `vector` extension.
 2. **Upstash.** Create a Redis database (eviction off) and copy the `rediss://` URL.
 3. **Render.** New → Blueprint → this repository. `render.yaml` creates the API service; enter the secrets
-   (`DATABASE_URL`, `REDIS_URL`, `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`) in the
-   dashboard. On the free plan the worker runs inside the API (`RUN_WORKER_IN_API=true`); with a paid plan add a
+   (`DATABASE_URL`, `REDIS_URL`, `ANTHROPIC_API_KEY`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`) in the dashboard.
+   The blueprint uses keyword embeddings, so only an Anthropic key is needed; for semantic search set
+   `EMBEDDING_PROVIDER=openai`, add `OPENAI_API_KEY` and reindex the documents. On the free plan the worker runs inside the API (`RUN_WORKER_IN_API=true`); with a paid plan add a
    Background Worker with start command `node apps/api/dist/worker.js` and set it to `false`.
 4. **Vercel.** Import the repository with root directory `apps/web`. Environment variables:
    `API_URL` (the Render URL), and optionally `NEXT_PUBLIC_GITHUB_URL`, `NEXT_PUBLIC_DEMO_VIEWER_EMAIL`,
@@ -182,3 +183,5 @@ command quota.
 - Visitors are anonymous: clearing cookies resets their limits, which is why there is also a global daily budget.
 - Token budgets are checked before a request, so one in-flight answer can go slightly over the limit.
 - The fake model is for development and tests only; it doesn’t write answers, it quotes the best-matching sentence.
+- The live demo uses keyword embeddings (hashed bag of words) to stay on one paid API. They match shared words,
+  not meaning, so a question phrased with synonyms can miss; OpenAI embeddings fix that with a config change.
