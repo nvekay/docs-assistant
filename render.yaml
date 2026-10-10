@@ -7,14 +7,17 @@ services:
     runtime: node
     plan: free
     region: frankfurt
-    # NODE_ENV=development only for install, so devDependencies (Nest CLI, migrations) are installed
+    # Render's /usr/bin is read-only, so `corepack enable` fails there; npx runs the exact pnpm version
+    # from package.json instead. NODE_ENV=development only for install, so devDependencies
+    # (Nest CLI, migrations) are installed.
     buildCommand: >-
-      corepack enable &&
-      NODE_ENV=development pnpm install --frozen-lockfile &&
-      pnpm --filter @docs-assistant/shared build &&
-      pnpm --filter @docs-assistant/api build
-    # Migrations take a lock, so running them on every start is safe
-    startCommand: pnpm migrate && node apps/api/dist/main.js
+      NODE_ENV=development npx -y pnpm@12.10.1 install --frozen-lockfile &&
+      npx -y pnpm@12.10.1 --filter @docs-assistant/shared build &&
+      npx -y pnpm@12.10.1 --filter @docs-assistant/api build
+    # Migrations take a lock, so running them on every start is safe; no pnpm needed at runtime
+    startCommand: >-
+      node_modules/.bin/node-pg-migrate up -m migrations --migration-file-language sql &&
+      node apps/api/dist/main.js
     healthCheckPath: /health
     envVars:
       - key: NODE_VERSION
