@@ -1,0 +1,50 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-face), ui-monospace, SFMono-Regular, monospace;
+  --color-accent: oklch(0.55 0.19 265);
+  --color-accent-soft: oklch(0.95 0.03 265);
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  @apply bg-white text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
+}
+
+/* Markdown inside assistant answers (no typography plugin: only what answers use) */
+.answer {
+  @apply text-[15px] leading-relaxed;
+}
+.answer > * + * {
+  @apply mt-3;
+}
+.answer ul {
+  @apply list-disc pl-5;
+}
+.answer ol {
+  @apply list-decimal pl-5;
+}
+.answer li + li {
+  @apply mt-1;
+}
+.answer h1,
+.answer h2,
+.answer h3 {
+  @apply font-semibold;
+}
+.answer code {
+  @apply rounded bg-slate-100 px-1 py-0.5 font-mono text-[13px] dark:bg-slate-800;
+}
+.answer pre {
+  @apply overflow-x-auto rounded-lg bg-slate-100 p-3 dark:bg-slate-900;
+}
+.answer pre code {
+  @apply bg-transparent p-0;
+}
+.answer a:not(.cite) {
+  @apply text-accent underline underline-offset-2;
+}

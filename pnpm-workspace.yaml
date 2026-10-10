@@ -1,0 +1,12 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+
+# Optional native accelerators; the packages work without running their install scripts
+allowBuilds:
+  '@parcel/watcher': false
+  cpu-features: false
+  msgpackr-extract: false
+  protobufjs: false
+  ssh2: false
+  unrs-resolver: false

@@ -1,0 +1,65 @@
+# Render Blueprint for the API (Dashboard -> New -> Blueprint -> pick this repo).
+# Free plan: one web service that also runs the ingestion worker (RUN_WORKER_IN_API=true).
+# Secrets marked `sync: false` are entered in the Render dashboard, never committed.
+services:
+  - type: web
+    name: docs-assistant-api
+    runtime: node
+    plan: free
+    region: frankfurt
+    # NODE_ENV=development only for install, so devDependencies (Nest CLI, migrations) are installed
+    buildCommand: >-
+      corepack enable &&
+      NODE_ENV=development pnpm install --frozen-lockfile &&
+      pnpm --filter @docs-assistant/shared build &&
+      pnpm --filter @docs-assistant/api build
+    # Migrations take a lock, so running them on every start is safe
+    startCommand: pnpm migrate && node apps/api/dist/main.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: '24'
+      - key: NODE_ENV
+        value: production
+      - key: RUN_WORKER_IN_API
+        value: 'true'
+      # Neon: use the direct (non-pooled) connection string with ?sslmode=require
+      - key: DATABASE_URL
+        sync: false
+      # Upstash: the rediss://default:...@...upstash.io:6379 URL
+      - key: REDIS_URL
+        sync: false
+      - key: LLM_PROVIDER
+        value: anthropic
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ANTHROPIC_MODEL
+        value: claude-opus-5-5
+      - key: ANTHROPIC_EFFORT
+        value: low
+      - key: EMBEDDING_PROVIDER
+        value: openai
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: PRICE_INPUT_PER_MTOK
+        value: '4'
+      - key: PRICE_OUTPUT_PER_MTOK
+        value: '20'
+      - key: LLM_MAX_TOKENS
+        value: '2000'
+      - key: DAILY_TOKEN_LIMIT_PER_USER
+        value: '50000'
+      - key: DAILY_TOKEN_LIMIT_GLOBAL
+        value: '1000000'
+      - key: CHAT_RATE_LIMIT_PER_MINUTE
+        value: '10'
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DEMO_VIEWER_EMAIL
+        value: demo@example.com
+      - key: DEMO_VIEWER_PASSWORD
+        value: demo-viewer

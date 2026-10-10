@@ -1,0 +1,39 @@
+{
+  "name": "docs-assistant",
+  "private": true,
+  "packageManager": "pnpm@12.10.1",
+  "version": "0.1.0",
+  "description": "AI support assistant that answers questions from your product docs with citations (Next.js + NestJS + pgvector)",
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev:api": "pnpm --filter @docs-assistant/api dev",
+    "dev:worker": "pnpm --filter @docs-assistant/api dev:worker",
+    "dev:web": "pnpm --filter @docs-assistant/web dev",
+    "migrate": "node-pg-migrate up -m migrations --migration-file-language sql",
+    "seed": "node scripts/seed.mjs",
+    "migrate:down": "node-pg-migrate down -m migrations --migration-file-language sql",
+    "test": "pnpm -r test",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "pnpm -r typecheck && tsc --noEmit -p tsconfig.json",
+    "test:e2e": "pnpm --filter @docs-assistant/api test:e2e",
+    "test:browser": "playwright test"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.64.0",
+    "@types/node": "^24.19.1",
+    "eslint": "^10.12.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.13.0",
+    "node-pg-migrate": "^9.0.0",
+    "pg": "^8.23.1",
+    "prettier": "3.9.9",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.71.1"
+  }
+}
