@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   HttpException,
   Inject,
   Logger,
@@ -44,7 +46,7 @@ export class ChatController {
       if (exceeded.retryAfterSeconds) res.setHeader('Retry-After', String(exceeded.retryAfterSeconds));
       throw new HttpException({ code: exceeded.code, message: exceeded.message }, 429);
     }
-    const conversationId = await this.chat.openConversation(userId, body.conversationId);
+    const conversationId = await this.chat.openConversation(userId, body.conversationId, body.message);
 
     res.status(200);
     res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
@@ -76,13 +78,32 @@ export class ChatController {
     }
   }
 
+  /** The visitor's chats for the sidebar, most recently active first */
+  @Get('conversations')
+  conversations(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    return this.chat.listConversations(this.visitor(req, res));
+  }
+
   @Get(':conversationId/messages')
   messages(
     @Param('conversationId', ParseUUIDPipe) conversationId: string,
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const userId = resolveAnonymousUser(req, res, this.config.NODE_ENV === 'production');
-    return this.chat.messages(userId, conversationId);
+    return this.chat.messages(this.visitor(req, res), conversationId);
+  }
+
+  @Delete(':conversationId')
+  @HttpCode(204)
+  remove(
+    @Param('conversationId', ParseUUIDPipe) conversationId: string,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.chat.deleteConversation(this.visitor(req, res), conversationId);
+  }
+
+  private visitor(req: Request, res: Response): string {
+    return resolveAnonymousUser(req, res, this.config.NODE_ENV === 'production');
   }
 }

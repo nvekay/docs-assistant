@@ -22,18 +22,24 @@ the only paid API, and a keyless fake model makes local development and tests fr
 
 - **Retrieval-augmented answers with citations.** Every statement is tied to a numbered fragment; clicking `[n]`
   opens the source text, its document and similarity score.
-- **Honest “not covered”.** Chunks below a relevance threshold never reach the model; with nothing relevant the
-  model is told so and declines.
+- **Answers from all documents.** Documents are split by section; a question is rewritten by Claude into a
+  standalone English search query (follow-ups, other languages, synonyms) and searched with hybrid search:
+  Postgres full-text (stemmed) and pgvector, merged with Reciprocal Rank Fusion. The top 8 fragments usually come
+  from several documents.
+- **Honest “not covered”.** The model may answer only from the fragments it was given; with nothing relevant it is
+  told so and declines.
 - **Streaming over Server-Sent Events**, with a Stop button. Closing the tab aborts the upstream model request.
 - **Pluggable model layer.** `LlmProvider` / `EmbeddingProvider` interfaces: Claude and a keyless fake for chat,
   local keyword embeddings for search. The services never import a vendor SDK directly.
-- **Background ingestion.** Upload → BullMQ job → extract (Markdown, PDF, HTML) → chunk (~800 tokens, 100 overlap)
-  → embed in batches → atomic swap of a document’s chunks. 4 attempts with exponential backoff, then `failed` with
+- **Background ingestion.** Upload (several files at once) → BullMQ job → extract (Markdown, PDF, HTML) → split by
+  section (~300 tokens, each chunk starts with “Title › Section”) → embed in batches → atomic swap of a document’s
+  chunks. 4 attempts with exponential backoff, then `failed` with
   the reason shown in the admin panel.
 - **Cost control for a public demo.** Per-visitor sliding-window rate limit in Redis (atomic Lua script), daily token
   budgets per visitor and for the whole app, cost in USD recorded for every answer, usage dashboard.
-- **Conversations.** Anonymous visitors get an httpOnly cookie; conversations survive reloads and can’t be read by
-  anyone else. Follow-up questions keep context.
+- **Chat list.** Anonymous visitors get an httpOnly cookie; their chats are listed (switch, delete, start new), the
+  open chat is in the URL, and nobody else can read them. The last 24 messages are sent with each question, and
+  answers can be up to 8,000 tokens long.
 - **Admin roles.** Full admin plus an optional read-only demo account, so the admin panel can be shown publicly.
 
 ## Architecture
@@ -58,31 +64,34 @@ flowchart LR
   API -- enqueue --> Redis
   Redis -- jobs --> Worker
   Worker -- chunks + embeddings --> PG
-  API -- vector search, messages, usage --> PG
+  API -- hybrid search, chats, usage --> PG
   API -- rate limit --> Redis
-  API -- stream --> LLM
+  API -- rewrite query, stream answer --> LLM
 ```
 
 **How a question is answered**
 
 1. Rate limit and daily budgets are checked (HTTP 429 with a clear message if exceeded).
-2. The question is embedded; a short follow-up (“and on mobile?”) is searched together with the previous question.
-3. `ORDER BY embedding <=> $1 LIMIT 6` on an HNSW cosine index, then a relevance cutoff.
-4. The model gets numbered fragments, the last 6 messages and instructions to answer only from the fragments and
-   cite them as `[n]`.
+2. Claude rewrites the question, with the conversation so far, into a standalone English query with synonyms
+   (“а на телефоне?” → “reset password mobile app sign in”).
+3. Hybrid search over all chunks: Postgres full-text search (`ts_rank_cd`, English stemming) and pgvector
+   (`ORDER BY embedding <=> $1`, HNSW index, relevance cutoff), merged with Reciprocal Rank Fusion, top 8.
+4. The model gets the numbered fragments, the last 24 messages and instructions to answer only from the fragments
+   and cite them as `[n]`.
 5. Tokens stream to the browser as SSE events: `meta`, `delta`…, `citations`, `done` (or `error`).
 6. The answer, the citations it actually used, and token usage with cost are stored.
 
 **Design decisions**
 
-| Decision                                          | Why                                                                                                  |
-| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| pgvector instead of a vector database             | One database for documents, chunks, chats and usage; transactional reindexing; fewer services to run |
-| `pg` with SQL, no ORM                             | Vector queries and aggregates are plain SQL; every query is visible and parameterized                |
-| Worker as a second entry point of the API package | Shares config, DB and provider modules; on free hosting it can run inside the API process            |
-| POST + SSE read with `fetch`                      | The question goes in the body; EventSource only supports GET                                         |
-| Browser talks only to the Next.js origin          | `/api/*` is proxied, so the visitor cookie is first-party and no CORS is needed                      |
-| Fake LLM, local keyword embeddings                | Deterministic, free tests of the full pipeline, including the browser tests in CI                    |
+| Decision                                          | Why                                                                                                                                                 |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| pgvector instead of a vector database             | One database for documents, chunks, chats and usage; transactional reindexing; fewer services to run                                                |
+| `pg` with SQL, no ORM                             | Vector queries and aggregates are plain SQL; every query is visible and parameterized                                                               |
+| Worker as a second entry point of the API package | Shares config, DB and provider modules; on free hosting it can run inside the API process                                                           |
+| POST + SSE read with `fetch`                      | The question goes in the body; EventSource only supports GET                                                                                        |
+| Browser talks only to the Next.js origin          | `/api/*` is proxied, so the visitor cookie is first-party and no CORS is needed                                                                     |
+| Hybrid search + Claude query rewriting            | Full-text search catches exact terms and word forms, vectors catch overlap in wording, the rewrite handles follow-ups, other languages and synonyms |
+| Fake LLM, local keyword embeddings                | Deterministic, free tests of the full pipeline, including the browser tests in CI                                                                   |
 
 ## Stack
 
@@ -179,6 +188,6 @@ command quota.
 - Visitors are anonymous: clearing cookies resets their limits, which is why there is also a global daily budget.
 - Token budgets are checked before a request, so one in-flight answer can go slightly over the limit.
 - The fake model is for development and tests only; it doesn’t write answers, it quotes the best-matching sentence.
-- Search uses keyword embeddings (hashed bag of words), since Anthropic has no embeddings API. They match shared
-  words, not meaning, so a question phrased with synonyms (“cost” vs “price”) can miss. A semantic embedding
-  model can be added behind the same `EmbeddingProvider` interface.
+- Embeddings are keyword-based (hashed bag of words), since Anthropic has no embeddings API. They compare words,
+  not meaning; Claude’s query rewrite (which adds synonyms) and stemmed full-text search cover most of the gap, and a
+  semantic embedding model can be plugged in behind the same `EmbeddingProvider` interface.

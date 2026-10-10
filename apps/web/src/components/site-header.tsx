@@ -10,9 +10,11 @@ const LINKS = [
 
 export function SiteHeader() {
   const pathname = usePathname();
+  // The chat uses the full window width (list, messages, sources); other pages are centered
+  const fullWidth = pathname.startsWith('/chat');
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
+      <div className={`mx-auto flex h-14 items-center justify-between px-4 ${fullWidth ? 'max-w-none' : 'max-w-6xl'}`}>
         <Link href="/" className="flex items-center gap-2 whitespace-nowrap font-semibold">
           <span className="grid size-7 place-items-center rounded-md bg-accent text-sm text-white" aria-hidden>
             D

@@ -1,4 +1,4 @@
-import { chunkText } from './chunker';
+import { chunkDocument, chunkText } from './chunker';
 import { extractHtml, extractMarkdown } from './extract';
 
 describe('chunkText', () => {
@@ -53,5 +53,45 @@ describe('extractors', () => {
     expect(doc.text).toContain('Reset password');
     expect(doc.text).toContain('Open settings.\n\nClick reset.');
     expect(doc.text).not.toMatch(/Pricing|track|2026/);
+  });
+});
+
+describe('chunkDocument', () => {
+  const guide = [
+    '# Ledgerly: account and security',
+    '',
+    '## Reset your password',
+    '',
+    'Click "Forgot password?" on the sign-in page.',
+    '',
+    '## Two-factor authentication',
+    '',
+    'Turn it on in Settings > Security.',
+  ].join('\n');
+
+  it('makes one chunk per section, each starting with "Title › Section"', () => {
+    const chunks = chunkDocument(guide, { title: 'Ledgerly: account and security' });
+    expect(chunks.map((c) => c.content)).toEqual([
+      'Ledgerly: account and security › Reset your password\n\nClick "Forgot password?" on the sign-in page.',
+      'Ledgerly: account and security › Two-factor authentication\n\nTurn it on in Settings > Security.',
+    ]);
+    expect(chunks.map((c) => c.ord)).toEqual([0, 1]);
+  });
+
+  it('keeps text before the first heading and splits long sections', () => {
+    const long = `Intro text.\n\n## Big section\n\n${'A sentence about invoices. '.repeat(120)}`;
+    const chunks = chunkDocument(long, { title: 'Guide', maxTokens: 300 });
+    expect(chunks[0].content).toBe('Guide\n\nIntro text.');
+    expect(chunks.length).toBeGreaterThan(3);
+    for (const chunk of chunks.slice(1)) {
+      expect(chunk.content.startsWith('Guide › Big section\n\n')).toBe(true);
+      expect(chunk.tokens).toBeLessThanOrEqual(300 + 10);
+    }
+  });
+
+  it('treats text without headings (PDF, web pages) as one titled section', () => {
+    expect(chunkDocument('Just a paragraph.', { title: 'Manual' }).map((c) => c.content)).toEqual([
+      'Manual\n\nJust a paragraph.',
+    ]);
   });
 });

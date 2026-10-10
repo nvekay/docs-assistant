@@ -40,6 +40,12 @@ export class DocumentsController {
     return this.documents.createFromUrl(body.url, body.title);
   }
 
+  // Declared before ':id/reindex' so "reindex-all" is never read as a document id
+  @Post('reindex-all')
+  reindexAll() {
+    return this.documents.reindexAll();
+  }
+
   @Post(':id/reindex')
   reindex(@Param('id', ParseUUIDPipe) id: string) {
     return this.documents.reindex(id);

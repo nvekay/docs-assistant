@@ -83,6 +83,15 @@ export class DocumentsService {
     return { id };
   }
 
+  /** Re-chunks and re-embeds every document, e.g. after a change to chunking or embeddings */
+  async reindexAll() {
+    const { rows } = await this.pool.query<{ id: string }>(
+      `UPDATE documents SET status = 'queued', error = NULL, updated_at = now() RETURNING id`,
+    );
+    for (const { id } of rows) await this.enqueue(id);
+    return { queued: rows.length };
+  }
+
   async remove(id: string) {
     const { rowCount } = await this.pool.query('DELETE FROM documents WHERE id = $1', [id]);
     if (!rowCount) throw new NotFoundException('Document not found');

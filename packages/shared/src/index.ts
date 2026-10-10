@@ -43,7 +43,12 @@ export type ChatStreamEvent =
   | { type: 'meta'; conversationId: string }
   | { type: 'delta'; text: string }
   | { type: 'citations'; citations: Citation[] }
-  | { type: 'done'; usage: { inputTokens: number; outputTokens: number; costUsd: number } }
+  | {
+      type: 'done';
+      usage: { inputTokens: number; outputTokens: number; costUsd: number };
+      /** max_tokens: the answer hit the length limit and was cut off */
+      stopReason: 'end' | 'max_tokens';
+    }
   | { type: 'error'; code: 'rate_limited' | 'daily_limit' | 'refused' | 'internal'; message: string };
 
 /** GET /chat/:conversationId/messages, used to restore a conversation after a page reload */
@@ -78,4 +83,12 @@ export type AdminRole = 'admin' | 'viewer';
 export interface LoginResponse {
   accessToken: string;
   role: AdminRole;
+}
+
+/** GET /chat/conversations: one item of the visitor's chat list, newest first */
+export interface ConversationSummaryDto {
+  id: string;
+  /** The first question, shortened */
+  title: string;
+  updatedAt: string;
 }

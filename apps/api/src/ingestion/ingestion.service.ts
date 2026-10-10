@@ -3,7 +3,7 @@ import { Pool } from 'pg';
 import { PG_POOL } from '../db/db.module';
 import { toVectorLiteral } from '../db/vector';
 import { EMBEDDING_PROVIDER, EmbeddingProvider } from '../llm/llm.types';
-import { chunkText } from './chunker';
+import { chunkDocument } from './chunker';
 import { ExtractedDocument, extractMarkdown, extractPdf, fetchUrl } from './extract';
 
 const EMBED_BATCH = 64;
@@ -45,7 +45,8 @@ export class IngestionService {
     }
 
     const extracted = await this.extract(doc);
-    const chunks = chunkText(extracted.text);
+    // The same title the document ends up with (extracted beats the uploaded file name)
+    const chunks = chunkDocument(extracted.text, { title: extracted.title ?? doc.title });
     if (chunks.length === 0) {
       throw new Error('No readable text found in the document');
     }

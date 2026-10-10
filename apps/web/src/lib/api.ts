@@ -1,4 +1,10 @@
-import type { ChatMessageDto, DocumentDto, LoginResponse, UsageDayDto } from '@docs-assistant/shared';
+import type {
+  ChatMessageDto,
+  ConversationSummaryDto,
+  DocumentDto,
+  LoginResponse,
+  UsageDayDto,
+} from '@docs-assistant/shared';
 
 /** All requests go to this origin; next.config.ts proxies /api/* to the NestJS API */
 export const API_BASE = '/api';
@@ -33,6 +39,10 @@ async function request<T>(path: string, init: RequestInit = {}, token?: string |
 export const api = {
   chatMessages: (conversationId: string) => request<ChatMessageDto[]>(`/chat/${conversationId}/messages`),
 
+  conversations: () => request<ConversationSummaryDto[]>('/chat/conversations'),
+
+  deleteConversation: (conversationId: string) => request<void>(`/chat/${conversationId}`, { method: 'DELETE' }),
+
   login: (email: string, password: string) =>
     request<LoginResponse>('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
 
@@ -50,6 +60,8 @@ export const api = {
 
   reindex: (token: string, id: string) =>
     request<{ id: string }>(`/documents/${id}/reindex`, { method: 'POST' }, token),
+
+  reindexAll: (token: string) => request<{ queued: number }>('/documents/reindex-all', { method: 'POST' }, token),
 
   deleteDocument: (token: string, id: string) => request<void>(`/documents/${id}`, { method: 'DELETE' }, token),
 

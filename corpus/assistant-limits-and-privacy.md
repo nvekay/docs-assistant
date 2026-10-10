@@ -8,7 +8,7 @@ Each visitor can ask up to 10 questions per minute. If you ask more, the assista
 
 ## Daily limit
 
-Each visitor has a daily budget of 50,000 tokens. A token is a piece of a word; one question with its answer usually uses between 1,000 and 4,000 tokens, because the documentation fragments are sent along with the question. There is also a shared daily budget for the whole demo. When you reach the daily limit, or the shared budget is used up, the assistant stops answering until 00:00 UTC, when budgets reset.
+Each visitor has a daily budget of 200,000 tokens. A token is a piece of a word; one question with its answer usually uses between 1,000 and 4,000 tokens, because the documentation fragments are sent along with the question. There is also a shared daily budget for the whole demo. When you reach the daily limit, or the shared budget is used up, the assistant stops answering until 00:00 UTC, when budgets reset.
 
 ## Cost tracking
 

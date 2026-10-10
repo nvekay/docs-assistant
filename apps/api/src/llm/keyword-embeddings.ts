@@ -22,8 +22,10 @@ export const contentWords = (text: string): string[] =>
  */
 export class KeywordEmbeddingProvider implements EmbeddingProvider {
   readonly dimensions = EMBEDDING_DIMENSIONS;
-  // Bag-of-words vectors score low even for good matches, so the cutoff is low
-  readonly minRelevance = 0.1;
+  // With small (section-sized) chunks, one hash-bucket collision between an unrelated question and a
+  // chunk scores ~0.14, so the cutoff sits above it. Single-word matches are left to full-text search,
+  // which compares real words and can't collide.
+  readonly minRelevance = 0.2;
 
   async embed(texts: string[]): Promise<number[][]> {
     return texts.map((text) => this.embedOne(text));

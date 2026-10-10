@@ -22,6 +22,8 @@ await page.getByLabel('Your question').fill('Can I export invoices to CSV?');
 await page.getByRole('button', { name: 'Send' }).click();
 await page.getByRole('button', { name: 'Show source 1' }).first().click();
 await page.getByText(/tokens · \$/).waitFor();
+// Let the source panel finish its fade-in
+await page.waitForTimeout(500);
 await page.screenshot({ path: `${out}/chat.png` });
 
 await page.goto(`${base}/admin`);
@@ -35,6 +37,7 @@ await phone.getByLabel('Your question').fill('How do I reset my password?');
 await phone.getByRole('button', { name: 'Send' }).click();
 await phone.getByText(/tokens · \$/).waitFor();
 await phone.getByRole('button', { name: 'Show source 1' }).first().click();
+await phone.waitForTimeout(500);
 await phone.screenshot({ path: `${out}/chat-mobile.png` });
 
 await browser.close();

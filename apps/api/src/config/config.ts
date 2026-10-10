@@ -39,17 +39,19 @@ const configSchema = z
     FAKE_LLM_DELAY_MS: z.coerce.number().int().min(0).max(1000).default(0),
 
     /** Caps the answer (thinking included), so one request has a known maximum cost */
-    LLM_MAX_TOKENS: z.coerce.number().int().positive().default(2000),
+    LLM_MAX_TOKENS: z.coerce.number().int().positive().default(8000),
+    /** Earlier messages sent with each question, so the model remembers the conversation */
+    CHAT_HISTORY_MESSAGES: z.coerce.number().int().min(0).max(100).default(24),
 
     // Claude Haiku 5.5 list prices (USD per million tokens, prompts up to 100k tokens)
     PRICE_INPUT_PER_MTOK: z.coerce.number().nonnegative().default(0.1),
     PRICE_OUTPUT_PER_MTOK: z.coerce.number().nonnegative().default(0.5),
-    DAILY_TOKEN_LIMIT_PER_USER: z.coerce.number().int().positive().default(50000),
+    DAILY_TOKEN_LIMIT_PER_USER: z.coerce.number().int().positive().default(200000),
     /** Hard cap for the whole demo per day, so a public deployment can't run up the API bill */
     DAILY_TOKEN_LIMIT_GLOBAL: z.coerce.number().int().positive().default(1_000_000),
     CHAT_RATE_LIMIT_PER_MINUTE: z.coerce.number().int().positive().default(10),
 
-    RETRIEVAL_TOP_K: z.coerce.number().int().min(1).max(20).default(6),
+    RETRIEVAL_TOP_K: z.coerce.number().int().min(1).max(20).default(8),
     /** Overrides the default relevance threshold of the keyword embeddings (cosine similarity, 0..1) */
     RETRIEVAL_MIN_SCORE: z.preprocess(emptyToUndefined, z.coerce.number().min(0).max(1).optional()),
 

@@ -1,5 +1,5 @@
 import { contentWords } from './keyword-embeddings';
-import { ChatRequestOptions, LlmProvider, LlmStreamEvent } from './llm.types';
+import { ChatRequestOptions, Completion, CompletionOptions, LlmProvider, LlmStreamEvent } from './llm.types';
 
 /** Rough token estimate (~4 characters per token) for the fake provider and chunking */
 export function estimateTokens(text: string): number {
@@ -33,6 +33,11 @@ export class FakeLlmProvider implements LlmProvider {
 
   /** delayMs between words makes streaming (and the Stop button) visible in demos and browser tests */
   constructor(private readonly delayMs = 0) {}
+
+  /** The fake model can't rewrite queries; an empty reply makes the caller fall back to the original question */
+  async complete(_options: CompletionOptions): Promise<Completion> {
+    return { text: '', usage: { inputTokens: 0, outputTokens: 0 }, model: 'fake-model' };
+  }
 
   async *streamChat({ system, messages, signal }: ChatRequestOptions): AsyncIterable<LlmStreamEvent> {
     const source = /\[1\][^\n]*\n([\s\S]*?)(?:\n\[\d+\]|$)/.exec(system)?.[1]?.trim();

@@ -25,7 +25,8 @@ export function buildSystemPrompt(sources: RetrievedChunk[]): string {
   if (sources.length === 0) {
     return `${INSTRUCTIONS}\n\nDocumentation fragments: none matched this question.`;
   }
-  const fragments = sources.map((s, i) => `[${i + 1}] ${s.documentTitle}\n${s.content.trim()}`).join('\n\n');
+  // Chunks start with their own "Title › Section" line, so the number goes right before it
+  const fragments = sources.map((s, i) => `[${i + 1}] ${s.content.trim()}`).join('\n\n');
   return `${INSTRUCTIONS}\n\nDocumentation fragments:\n\n${fragments}`;
 }
 

@@ -25,10 +25,22 @@ export type LlmStreamEvent =
   | { type: 'text'; text: string }
   | { type: 'final'; usage: TokenUsage; model: string; stopReason: 'end' | 'max_tokens' | 'refusal' };
 
+/** A short, non-streamed reply, e.g. a rewritten search query */
+export interface CompletionOptions extends ChatRequestOptions {
+  maxTokens: number;
+}
+
+export interface Completion {
+  text: string;
+  usage: TokenUsage;
+  model: string;
+}
+
 export interface LlmProvider {
   /** Name stored in the usage table, e.g. "anthropic" */
   readonly name: string;
   streamChat(options: ChatRequestOptions): AsyncIterable<LlmStreamEvent>;
+  complete(options: CompletionOptions): Promise<Completion>;
 }
 
 export interface EmbeddingProvider {

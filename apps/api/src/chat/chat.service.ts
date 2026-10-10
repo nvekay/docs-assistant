@@ -1,5 +1,11 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import type { ChatLimitErrorBody, ChatMessageDto, ChatStreamEvent, Citation } from '@docs-assistant/shared';
+import type {
+  ChatLimitErrorBody,
+  ChatMessageDto,
+  ChatStreamEvent,
+  Citation,
+  ConversationSummaryDto,
+} from '@docs-assistant/shared';
 import { Redis } from 'ioredis';
 import { Pool } from 'pg';
 import { APP_CONFIG, AppConfig } from '../config/config';
@@ -10,11 +16,17 @@ import { ChatTurn, LLM_PROVIDER, LlmProvider, LlmStreamEvent, TokenUsage } from 
 import { REDIS } from '../redis/redis.module';
 import { UsageService } from '../usage/usage.service';
 import { buildRetrievalQuery, buildSystemPrompt, extractCitations } from './prompt';
+import { rewriteQuery } from './query-rewrite';
 import { SlidingWindowRateLimiter } from './rate-limiter';
 import { RetrievalService } from './retrieval.service';
 
-/** Previous messages sent to the model with each question (3 question/answer pairs) */
-const HISTORY_MESSAGES = 6;
+/** Chat list titles are the first question, cut to this length */
+const TITLE_CHARS = 80;
+
+export function conversationTitle(question: string): string {
+  const oneLine = question.replace(/\s+/g, ' ').trim();
+  return oneLine.length > TITLE_CHARS ? `${oneLine.slice(0, TITLE_CHARS - 1).trimEnd()}…` : oneLine;
+}
 
 export interface LimitExceeded extends ChatLimitErrorBody {
   retryAfterSeconds?: number;
@@ -64,15 +76,15 @@ export class ChatService {
     return null;
   }
 
-  /** Continues the user's own conversation or starts a new one; someone else's id is a 404 */
-  async openConversation(userId: string, conversationId?: string): Promise<string> {
+  /** Continues the user's own conversation or starts a new one titled by its first question; someone else's id is a 404 */
+  async openConversation(userId: string, conversationId: string | undefined, firstQuestion: string): Promise<string> {
     if (conversationId) {
       await this.assertOwner(userId, conversationId);
       return conversationId;
     }
     const { rows } = await this.pool.query<{ id: string }>(
-      'INSERT INTO conversations (user_id) VALUES ($1) RETURNING id',
-      [userId],
+      'INSERT INTO conversations (user_id, title) VALUES ($1, $2) RETURNING id',
+      [userId, conversationTitle(firstQuestion)],
     );
     return rows[0].id;
   }
@@ -93,13 +105,16 @@ export class ChatService {
       conversationId,
       message,
     ]);
+    // Moves the chat to the top of the list
+    await this.pool.query('UPDATE conversations SET updated_at = now() WHERE id = $1', [conversationId]);
 
-    const previousQuestion = history.findLast((m) => m.role === 'user')?.content;
-    const sources = await this.retrieval.search(buildRetrievalQuery(message, previousQuestion));
+    // Sent before the search, so the browser learns the conversation id right away
+    yield { type: 'meta', conversationId };
+
+    const query = await this.searchQuery(history, message, signal);
+    const sources = await this.retrieval.search(query.text);
     const system = buildSystemPrompt(sources);
     const messages: ChatTurn[] = [...history, { role: 'user', content: message }];
-
-    yield { type: 'meta', conversationId };
 
     let text = '';
     let final: FinalEvent | undefined;
@@ -122,9 +137,14 @@ export class ChatService {
       }
     } finally {
       // Without a final event (error or disconnect) the real numbers are unknown, so estimate them
-      usage = final?.usage ?? {
+      const answerUsage = final?.usage ?? {
         inputTokens: estimateTokens(system + messages.map((m) => m.content).join('\n')),
         outputTokens: estimateTokens(text),
+      };
+      // The query rewrite is a separate model call billed with this question
+      usage = {
+        inputTokens: answerUsage.inputTokens + query.usage.inputTokens,
+        outputTokens: answerUsage.outputTokens + query.usage.outputTokens,
       };
       costUsd = calculateCostUsd(usage, {
         input: this.config.PRICE_INPUT_PER_MTOK,
@@ -153,7 +173,9 @@ export class ChatService {
       JSON.stringify({
         event: 'chat_answered',
         conversationId,
+        query: query.rewritten ? query.text : undefined,
         sources: sources.length,
+        documents: new Set(sources.map((s) => s.documentId)).size,
         citations: citations.length,
         stopReason: final.stopReason,
         ...usage,
@@ -162,7 +184,53 @@ export class ChatService {
     );
 
     yield { type: 'citations', citations };
-    yield { type: 'done', usage: { ...usage, costUsd } };
+    yield {
+      type: 'done',
+      usage: { ...usage, costUsd },
+      stopReason: final.stopReason === 'max_tokens' ? 'max_tokens' : 'end',
+    };
+  }
+
+  /**
+   * What to search for: the model's standalone English rewrite of the question (handles
+   * follow-ups, other languages and synonyms) plus the original wording. If rewriting is not
+   * available (fake model) or fails, the short-follow-up heuristic is the fallback.
+   */
+  private async searchQuery(
+    history: ChatTurn[],
+    message: string,
+    signal?: AbortSignal,
+  ): Promise<{ text: string; rewritten: boolean; usage: TokenUsage }> {
+    const previousQuestion = history.findLast((m) => m.role === 'user')?.content;
+    const fallback = buildRetrievalQuery(message, previousQuestion);
+    try {
+      const rewrite = await rewriteQuery(this.llm, history, message, signal);
+      return rewrite.query
+        ? { text: `${rewrite.query}\n${message}`, rewritten: true, usage: rewrite.usage }
+        : { text: fallback, rewritten: false, usage: rewrite.usage };
+    } catch (error) {
+      if (!signal?.aborted) {
+        this.logger.warn(`Query rewrite failed, searching the original question: ${(error as Error).message}`);
+      }
+      return { text: fallback, rewritten: false, usage: { inputTokens: 0, outputTokens: 0 } };
+    }
+  }
+
+  async listConversations(userId: string): Promise<ConversationSummaryDto[]> {
+    const { rows } = await this.pool.query<{ id: string; title: string | null; updated_at: Date }>(
+      `SELECT id, title, updated_at FROM conversations WHERE user_id = $1 ORDER BY updated_at DESC LIMIT 50`,
+      [userId],
+    );
+    return rows.map((r) => ({ id: r.id, title: r.title ?? 'Untitled chat', updatedAt: r.updated_at.toISOString() }));
+  }
+
+  /** Deletes the user's own conversation with its messages (ON DELETE CASCADE); anything else is a 404 */
+  async deleteConversation(userId: string, conversationId: string): Promise<void> {
+    const { rowCount } = await this.pool.query('DELETE FROM conversations WHERE id = $1 AND user_id = $2', [
+      conversationId,
+      userId,
+    ]);
+    if (!rowCount) throw new NotFoundException('Conversation not found');
   }
 
   async messages(userId: string, conversationId: string): Promise<ChatMessageDto[]> {
@@ -197,7 +265,7 @@ export class ChatService {
   private async loadHistory(conversationId: string): Promise<ChatTurn[]> {
     const { rows } = await this.pool.query<ChatTurn>(
       `SELECT role, content FROM messages WHERE conversation_id = $1 ORDER BY id DESC LIMIT $2`,
-      [conversationId, HISTORY_MESSAGES],
+      [conversationId, this.config.CHAT_HISTORY_MESSAGES],
     );
     const turns = rows.reverse();
     while (turns[0]?.role === 'assistant') turns.shift();

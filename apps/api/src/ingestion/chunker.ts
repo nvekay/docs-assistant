@@ -47,6 +47,57 @@ export function chunkText(text: string, options: Partial<ChunkOptions> = {}): Te
   return chunks;
 }
 
+const SECTION_DEFAULTS: ChunkOptions = { maxTokens: 300, overlapTokens: 40 };
+
+interface Section {
+  heading: string | null;
+  body: string;
+}
+
+/**
+ * Splits a document into small, self-contained chunks for search: one per Markdown section
+ * (long sections are split further by chunkText), each starting with a "Title › Section" line.
+ * Small chunks score much better in keyword and full-text search than whole files, citations
+ * point at the right section, and the header keeps the context a bare paragraph would lose.
+ * Text without headings (PDFs, web pages) becomes a single section.
+ */
+export function chunkDocument(
+  text: string,
+  options: Partial<ChunkOptions> & { title?: string | null } = {},
+): TextChunk[] {
+  const { title, ...rest } = options;
+  const { maxTokens, overlapTokens } = { ...SECTION_DEFAULTS, ...rest };
+  const chunks: TextChunk[] = [];
+
+  for (const section of splitSections(normalize(text))) {
+    const label = [title, section.heading].filter((part, i, all): part is string => !!part && all.indexOf(part) === i);
+    const header = label.length ? `${label.join(' › ')}\n\n` : '';
+    const budget = Math.max(50, maxTokens - estimateTokens(header));
+    for (const piece of chunkText(section.body, { maxTokens: budget, overlapTokens })) {
+      const content = header + piece.content;
+      chunks.push({ ord: chunks.length, content, tokens: estimateTokens(content) });
+    }
+  }
+  return chunks;
+}
+
+/** Markdown headings (#, ##, ###…) start a new section; text before the first heading is its own section */
+function splitSections(text: string): Section[] {
+  const sections: Section[] = [];
+  let current: Section = { heading: null, body: '' };
+  for (const line of text.split('\n')) {
+    const heading = /^#{1,6}\s+(.+?)\s*#*\s*$/.exec(line);
+    if (heading) {
+      if (current.body.trim()) sections.push(current);
+      current = { heading: heading[1], body: '' };
+    } else {
+      current.body += `${line}\n`;
+    }
+  }
+  if (current.body.trim()) sections.push(current);
+  return sections;
+}
+
 function normalize(text: string): string {
   return text
     .replace(/\r\n?/g, '\n')

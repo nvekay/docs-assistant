@@ -7,7 +7,7 @@ const FEATURES = [
   },
   {
     title: 'Says “I don’t know”',
-    text: 'Weak search matches are filtered out. If the docs don’t cover a question, the assistant says so instead of guessing.',
+    text: 'The model may answer only from the fragments it was given. If the docs don’t cover a question, the assistant says so instead of guessing.',
   },
   {
     title: 'Streaming replies',
@@ -29,11 +29,11 @@ const FEATURES = [
 
 const PIPELINE = [
   { step: 'Upload', detail: 'Markdown, PDF or URL' },
-  { step: 'Queue', detail: 'BullMQ on Redis' },
-  { step: 'Chunk + embed', detail: '~800 tokens, 100 overlap' },
-  { step: 'pgvector', detail: 'HNSW cosine index' },
-  { step: 'Retrieve top 6', detail: 'with a relevance cutoff' },
-  { step: 'LLM answer', detail: 'streamed, with [n] citations' },
+  { step: 'Queue', detail: 'BullMQ worker on Redis' },
+  { step: 'Split by section', detail: '~300-token chunks with titles' },
+  { step: 'Index', detail: 'pgvector + Postgres full-text' },
+  { step: 'Rewrite + search', detail: 'Claude rewrites the question, hybrid search finds the top 8' },
+  { step: 'Answer', detail: 'streamed by Claude, with [n] citations' },
 ];
 
 const STACK = [
@@ -91,7 +91,7 @@ export default function HomePage() {
             {PIPELINE.map((p, i) => (
               <li
                 key={p.step}
-                className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950"
+                className="rounded-xl border border-slate-200 bg-white p-4 transition hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-sm dark:border-slate-800 dark:bg-slate-950"
               >
                 <span className="text-xs font-semibold text-accent">{String(i + 1).padStart(2, '0')}</span>
                 <p className="mt-1 font-medium">{p.step}</p>

@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import type { ChatMessageDto, ChatStreamEvent, DocumentDto } from '@docs-assistant/shared';
+import type { ChatMessageDto, ChatStreamEvent, ConversationSummaryDto, DocumentDto } from '@docs-assistant/shared';
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 import { RedisContainer, StartedRedisContainer } from '@testcontainers/redis';
 import { readdirSync, readFileSync } from 'node:fs';
@@ -8,6 +8,7 @@ import { join } from 'node:path';
 import { Pool } from 'pg';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
+import { RetrievalService } from '../src/chat/retrieval.service';
 import { PG_POOL } from '../src/db/db.module';
 
 /**
@@ -27,6 +28,13 @@ To reset your password, open Settings and click "Reset password". The reset link
 ## Invoices
 
 Invoices can be exported to CSV from the Billing page.
+`;
+
+const PLANS = `# Plans
+
+## Pro plan
+
+The Pro plan costs 12 dollars per month and includes payment reminders.
 `;
 
 /** Runs the "-- Up Migration" part of every SQL migration, in file name order */
@@ -137,20 +145,46 @@ describe('Docs Assistant API (e2e)', () => {
 
   describe('ingestion and chat', () => {
     let documentId: string;
+    let plansId: string;
 
-    beforeAll(async () => {
+    const upload = async (content: string, filename: string): Promise<string> => {
       const res = await request(app.getHttpServer())
         .post('/documents/upload')
         .set(auth())
-        .attach('file', Buffer.from(GUIDE), { filename: 'guide.md', contentType: 'text/markdown' })
+        .attach('file', Buffer.from(content), { filename, contentType: 'text/markdown' })
         .expect(201);
-      documentId = res.body.id;
+      return (res.body as { id: string }).id;
+    };
+
+    beforeAll(async () => {
+      documentId = await upload(GUIDE, 'guide.md');
+      plansId = await upload(PLANS, 'plans.md');
     });
 
-    it('indexes an uploaded document through the queue', async () => {
+    it('indexes uploaded documents through the queue, one chunk per section', async () => {
       const doc = await waitForReady(documentId);
       expect(doc).toMatchObject({ status: 'ready', title: 'Password reset', sourceType: 'md' });
-      expect(doc.chunkCount).toBeGreaterThan(0);
+      expect(doc.chunkCount).toBe(2);
+      expect(await waitForReady(plansId)).toMatchObject({ status: 'ready', title: 'Plans', chunkCount: 1 });
+
+      const { rows } = await pool.query<{ content: string }>(
+        'SELECT content FROM chunks WHERE document_id = $1 ORDER BY ord',
+        [documentId],
+      );
+      expect(rows[1].content).toBe(
+        'Password reset › Invoices\n\nInvoices can be exported to CSV from the Billing page.',
+      );
+    });
+
+    it('searches all documents and matches word forms', async () => {
+      const retrieval = app.get(RetrievalService);
+
+      const both = await retrieval.search('reset my password and the Pro plan price');
+      expect(new Set(both.map((c) => c.documentId))).toEqual(new Set([documentId, plansId]));
+
+      // Only full-text search can find this: "exporting invoice" vs "Invoices can be exported"
+      const [hit] = await retrieval.search('exporting invoice');
+      expect(hit.content).toContain('Invoices can be exported to CSV');
     });
 
     it('streams an answer with a citation, then continues the conversation', async () => {
@@ -170,6 +204,7 @@ describe('Docs Assistant API (e2e)', () => {
       expect(done).toMatchObject({
         type: 'done',
         usage: { inputTokens: expect.any(Number), costUsd: expect.any(Number) },
+        stopReason: 'end',
       });
 
       const meta = events[0] as Extract<ChatStreamEvent, { type: 'meta' }>;
@@ -189,6 +224,38 @@ describe('Docs Assistant API (e2e)', () => {
         .post('/chat')
         .send({ conversationId: meta.conversationId, message: 'hi' })
         .expect(404);
+    });
+
+    it('lists a visitor’s own chats, newest first, and deletes them', async () => {
+      const agent = request.agent(app.getHttpServer());
+      const ask = async (message: string) => {
+        const res = await agent.post('/chat').send({ message }).expect(200);
+        return (parseSse(res.text)[0] as Extract<ChatStreamEvent, { type: 'meta' }>).conversationId;
+      };
+      const older = await ask('How do I reset my password?');
+      const newer = await ask('Can I export invoices?');
+
+      const list = (await agent.get('/chat/conversations').expect(200)).body as ConversationSummaryDto[];
+      expect(list.map((c) => [c.id, c.title])).toEqual([
+        [newer, 'Can I export invoices?'],
+        [older, 'How do I reset my password?'],
+      ]);
+
+      // Someone else can neither see nor delete them
+      expect((await request(app.getHttpServer()).get('/chat/conversations').expect(200)).body).toEqual([]);
+      await request(app.getHttpServer()).delete(`/chat/${older}`).expect(404);
+
+      await agent.delete(`/chat/${older}`).expect(204);
+      const after = (await agent.get('/chat/conversations').expect(200)).body as ConversationSummaryDto[];
+      expect(after.map((c) => c.id)).toEqual([newer]);
+      await agent.get(`/chat/${older}/messages`).expect(404);
+    });
+
+    it('reindexes all documents on request', async () => {
+      const res = await request(app.getHttpServer()).post('/documents/reindex-all').set(auth()).expect(201);
+      expect(res.body).toEqual({ queued: 2 });
+      expect((await waitForReady(documentId)).status).toBe('ready');
+      expect((await waitForReady(plansId)).status).toBe('ready');
     });
 
     it('declines questions the documentation does not cover', async () => {

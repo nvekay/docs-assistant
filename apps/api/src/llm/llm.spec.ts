@@ -86,7 +86,7 @@ describe('config and provider selection', () => {
     // Cheap by default: Haiku, a capped answer, prices that match it, no beta fallback
     expect(config).toMatchObject({
       ANTHROPIC_MODEL: 'claude-haiku-5-5',
-      LLM_MAX_TOKENS: 2000,
+      LLM_MAX_TOKENS: 8000,
       PRICE_INPUT_PER_MTOK: 0.1,
       PRICE_OUTPUT_PER_MTOK: 0.5,
       ANTHROPIC_FALLBACK: false,

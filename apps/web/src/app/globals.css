@@ -4,7 +4,29 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-mono-face), ui-monospace, SFMono-Regular, monospace;
   --color-accent: oklch(0.55 0.19 265);
+  --color-accent-strong: oklch(0.48 0.2 265);
   --color-accent-soft: oklch(0.95 0.03 265);
+
+  --animate-fade-in: fade-in 0.2s ease-out both;
+  --animate-slide-in: slide-in 0.2s ease-out both;
+  --animate-caret: caret 1s steps(1) infinite;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+  }
+  @keyframes slide-in {
+    from {
+      transform: translateX(-100%);
+    }
+  }
+  @keyframes caret {
+    50% {
+      opacity: 0;
+    }
+  }
 }
 
 :root {
@@ -13,6 +35,27 @@
 
 body {
   @apply bg-white text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
+}
+
+/* Visible keyboard focus everywhere, invisible for mouse clicks */
+:where(a, button, [tabindex]):focus-visible {
+  @apply rounded-md outline-2 outline-offset-2 outline-accent/60;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Thin, unobtrusive scrollbars in the chat and lists */
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(148 163 184 / 0.4) transparent;
 }
 
 /* Markdown inside assistant answers (no typography plugin: only what answers use) */
@@ -47,4 +90,11 @@ body {
 }
 .answer a:not(.cite) {
   @apply text-accent underline underline-offset-2;
+}
+
+/* Blinking cursor after the last word of an answer that is still streaming */
+.answer.streaming > :last-child:not(ul, ol, pre)::after,
+.answer.streaming > :is(ul, ol):last-child > li:last-child::after {
+  content: '▍';
+  @apply animate-caret ml-0.5 text-slate-400;
 }
