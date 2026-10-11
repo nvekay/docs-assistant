@@ -1,0 +1,349 @@
+{
+  "description": "One or more questions per section of every corpus/*.md file. expectDocs: documents that must be cited. mustInclude: groups of alternatives; the answer must contain at least one alternative from every group (case-insensitive). kind: fact (direct), paraphrase (different words than the doc), ru (asked in Russian), multi (needs two documents), negative (not in the docs: must say so; citing related sections is allowed).",
+  "questions": [
+    {
+      "id": "sec-reset-link",
+      "kind": "fact",
+      "section": "Ledgerly: account and security › Reset your password",
+      "question": "How long is the password reset link valid?",
+      "expectDocs": ["Ledgerly: account and security"],
+      "mustInclude": [["30 minutes", "30 min"]]
+    },
+    {
+      "id": "sec-change-password",
+      "kind": "paraphrase",
+      "section": "Ledgerly: account and security › Reset your password",
+      "question": "I'm logged in and want a new password. Where do I do that?",
+      "expectDocs": ["Ledgerly: account and security"],
+      "mustInclude": [["Change password", "Settings > Security", "Security"]]
+    },
+    {
+      "id": "sec-2fa-apps",
+      "kind": "fact",
+      "section": "Ledgerly: account and security › Two-factor authentication",
+      "question": "Which authenticator apps can I use for two-factor authentication?",
+      "expectDocs": ["Ledgerly: account and security"],
+      "mustInclude": [["Google Authenticator", "1Password"]]
+    },
+    {
+      "id": "sec-backup-codes",
+      "kind": "fact",
+      "section": "Ledgerly: account and security › Two-factor authentication",
+      "question": "How many 2FA backup codes do I get?",
+      "expectDocs": ["Ledgerly: account and security"],
+      "mustInclude": [["ten", "10"]]
+    },
+    {
+      "id": "sec-lost-2fa",
+      "kind": "paraphrase",
+      "section": "Ledgerly: account and security › Lost access to 2FA",
+      "question": "My phone was stolen and I don't have my backup codes. How do I get back into my account?",
+      "expectDocs": ["Ledgerly: account and security"],
+      "mustInclude": [["support"], ["business day"]]
+    },
+    {
+      "id": "sec-member-role",
+      "kind": "fact",
+      "section": "Ledgerly: account and security › Team roles",
+      "question": "What can't a Member do on the Team plan?",
+      "expectDocs": ["Ledgerly: account and security"],
+      "mustInclude": [["delete clients", "change settings"]]
+    },
+    {
+      "id": "sec-restore-workspace",
+      "kind": "paraphrase",
+      "section": "Ledgerly: account and security › Deleting your account",
+      "question": "I deleted my workspace by mistake. Can I get it back?",
+      "expectDocs": ["Ledgerly: account and security"],
+      "mustInclude": [["30 days"]]
+    },
+    {
+      "id": "bill-team-price",
+      "kind": "fact",
+      "section": "Ledgerly: plans, billing and exports › Plans",
+      "question": "How much does the Team plan cost?",
+      "expectDocs": ["Ledgerly: plans, billing and exports"],
+      "mustInclude": [["$29", "29"]]
+    },
+    {
+      "id": "bill-yearly-discount",
+      "kind": "paraphrase",
+      "section": "Ledgerly: plans, billing and exports › Plans",
+      "question": "Is it cheaper if I pay for a whole year up front?",
+      "expectDocs": ["Ledgerly: plans, billing and exports"],
+      "mustInclude": [["two months", "2 months"]]
+    },
+    {
+      "id": "bill-failed-payment",
+      "kind": "fact",
+      "section": "Ledgerly: plans, billing and exports › Your Ledgerly bill",
+      "question": "What happens if my card payment fails?",
+      "expectDocs": ["Ledgerly: plans, billing and exports"],
+      "mustInclude": [["read-only", "read only", "14 days"]]
+    },
+    {
+      "id": "bill-receipts",
+      "kind": "paraphrase",
+      "section": "Ledgerly: plans, billing and exports › Your Ledgerly bill",
+      "question": "Where can I get copies of my past receipts?",
+      "expectDocs": ["Ledgerly: plans, billing and exports"],
+      "mustInclude": [["Billing history"]]
+    },
+    {
+      "id": "bill-csv-fields",
+      "kind": "fact",
+      "section": "Ledgerly: plans, billing and exports › Exporting invoices",
+      "question": "Which fields does a CSV export of invoices include?",
+      "expectDocs": ["Ledgerly: plans, billing and exports"],
+      "mustInclude": [["invoice number"], ["due date"]]
+    },
+    {
+      "id": "bill-export-free",
+      "kind": "fact",
+      "section": "Ledgerly: plans, billing and exports › Exporting invoices",
+      "question": "Can I export invoices on the Free plan?",
+      "expectDocs": ["Ledgerly: plans, billing and exports"],
+      "mustInclude": [["all plans", "including Free", "yes"]]
+    },
+    {
+      "id": "bill-data-after-cancel",
+      "kind": "fact",
+      "section": "Ledgerly: plans, billing and exports › Cancelling",
+      "question": "How long is my data kept after I cancel my subscription?",
+      "expectDocs": ["Ledgerly: plans, billing and exports"],
+      "mustInclude": [["90 days"]]
+    },
+    {
+      "id": "start-what-is",
+      "kind": "fact",
+      "section": "Ledgerly: getting started (intro)",
+      "question": "What is Ledgerly and who is it for?",
+      "expectDocs": ["Ledgerly: getting started"],
+      "mustInclude": [["invoic"], ["freelancer", "small business"]]
+    },
+    {
+      "id": "start-currency",
+      "kind": "fact",
+      "section": "Ledgerly: getting started › Create your workspace",
+      "question": "Can I change my default currency later?",
+      "expectDocs": ["Ledgerly: getting started"],
+      "mustInclude": [["Business profile"]]
+    },
+    {
+      "id": "start-client-required",
+      "kind": "fact",
+      "section": "Ledgerly: getting started › Add your first client",
+      "question": "Which fields are required when adding a client?",
+      "expectDocs": ["Ledgerly: getting started"],
+      "mustInclude": [["name"], ["email"]]
+    },
+    {
+      "id": "start-import-clients",
+      "kind": "paraphrase",
+      "section": "Ledgerly: getting started › Add your first client",
+      "question": "Can I bring in my customers from a spreadsheet instead of typing them one by one?",
+      "expectDocs": ["Ledgerly: getting started"],
+      "mustInclude": [["CSV"]]
+    },
+    {
+      "id": "start-invoice-statuses",
+      "kind": "fact",
+      "section": "Ledgerly: getting started › Send your first invoice",
+      "question": "What statuses does an invoice go through?",
+      "expectDocs": ["Ledgerly: getting started"],
+      "mustInclude": [["Draft"], ["Viewed"], ["Paid"]]
+    },
+    {
+      "id": "start-recurring",
+      "kind": "paraphrase",
+      "section": "Ledgerly: getting started › Recurring invoices",
+      "question": "How do I bill a client automatically every month for a retainer?",
+      "expectDocs": ["Ledgerly: getting started"],
+      "mustInclude": [["Make recurring", "recurring"]]
+    },
+    {
+      "id": "int-payment-fee",
+      "kind": "fact",
+      "section": "Ledgerly: integrations and API › Online payments",
+      "question": "Does Ledgerly charge a fee on online card payments?",
+      "expectDocs": ["Ledgerly: integrations and API"],
+      "mustInclude": [["fee"]]
+    },
+    {
+      "id": "int-accounting",
+      "kind": "fact",
+      "section": "Ledgerly: integrations and API › Accounting software",
+      "question": "Which accounting software can Ledgerly sync with?",
+      "expectDocs": ["Ledgerly: integrations and API"],
+      "mustInclude": [["QuickBooks"], ["Xero"]]
+    },
+    {
+      "id": "int-api-limit",
+      "kind": "fact",
+      "section": "Ledgerly: integrations and API › API",
+      "question": "What is the rate limit of the Ledgerly API?",
+      "expectDocs": ["Ledgerly: integrations and API"],
+      "mustInclude": [["60"]]
+    },
+    {
+      "id": "int-api-plans",
+      "kind": "fact",
+      "section": "Ledgerly: integrations and API › API",
+      "question": "Which plans include API access?",
+      "expectDocs": ["Ledgerly: integrations and API"],
+      "mustInclude": [["Pro"], ["Team"]]
+    },
+    {
+      "id": "int-webhook-verify",
+      "kind": "paraphrase",
+      "section": "Ledgerly: integrations and API › Webhooks",
+      "question": "How can my server be sure a webhook request really came from Ledgerly?",
+      "expectDocs": ["Ledgerly: integrations and API"],
+      "mustInclude": [["HMAC", "Ledgerly-Signature", "signature"]]
+    },
+    {
+      "id": "int-webhook-retry",
+      "kind": "fact",
+      "section": "Ledgerly: integrations and API › Webhooks",
+      "question": "How long are failed webhook deliveries retried?",
+      "expectDocs": ["Ledgerly: integrations and API"],
+      "mustInclude": [["24 hours"]]
+    },
+    {
+      "id": "how-internet",
+      "kind": "fact",
+      "section": "How the Docs Assistant works (intro)",
+      "question": "Does the Docs Assistant search the internet?",
+      "expectDocs": ["How the Docs Assistant works"],
+      "mustInclude": [["no", "does not", "doesn't", "only"]]
+    },
+    {
+      "id": "how-indexing-retries",
+      "kind": "fact",
+      "section": "How the Docs Assistant works › From document to searchable chunks",
+      "question": "What happens if a web page can't be downloaded during indexing?",
+      "expectDocs": ["How the Docs Assistant works"],
+      "mustInclude": [["four", "4"], ["failed"]]
+    },
+    {
+      "id": "how-citation-numbers",
+      "kind": "paraphrase",
+      "section": "How the Docs Assistant works › Citations",
+      "question": "What do the numbers in square brackets in an answer mean?",
+      "expectDocs": ["How the Docs Assistant works"],
+      "mustInclude": [["fragment"]]
+    },
+    {
+      "id": "how-no-answer",
+      "kind": "fact",
+      "section": "How the Docs Assistant works › When the documentation has no answer",
+      "question": "What does the assistant do when the documentation has no answer to a question?",
+      "expectDocs": ["How the Docs Assistant works"],
+      "mustInclude": [["not cover", "doesn't cover", "does not cover"]]
+    },
+    {
+      "id": "lim-per-minute",
+      "kind": "fact",
+      "section": "Usage limits and privacy › Rate limit",
+      "question": "How many questions can I ask per minute?",
+      "expectDocs": ["Usage limits and privacy"],
+      "mustInclude": [["10"]]
+    },
+    {
+      "id": "lim-daily-budget",
+      "kind": "fact",
+      "section": "Usage limits and privacy › Daily limit",
+      "question": "What is the daily token budget per visitor?",
+      "expectDocs": ["Usage limits and privacy"],
+      "mustInclude": [["200,000", "200 000", "200000", "200k"]]
+    },
+    {
+      "id": "lim-reset-time",
+      "kind": "paraphrase",
+      "section": "Usage limits and privacy › Daily limit",
+      "question": "I ran out of my daily allowance. When can I ask again?",
+      "expectDocs": ["Usage limits and privacy"],
+      "mustInclude": [["00:00 UTC", "midnight UTC", "UTC"]]
+    },
+    {
+      "id": "lim-cost-tracking",
+      "kind": "fact",
+      "section": "Usage limits and privacy › Cost tracking",
+      "question": "Does the assistant track how much each answer costs?",
+      "expectDocs": ["Usage limits and privacy"],
+      "mustInclude": [["US dollars", "USD", "cost"]]
+    },
+    {
+      "id": "lim-account",
+      "kind": "fact",
+      "section": "Usage limits and privacy › What is stored",
+      "question": "Do I need an account to use the chat, and what is stored about me?",
+      "expectDocs": ["Usage limits and privacy"],
+      "mustInclude": [["cookie"]]
+    },
+    {
+      "id": "lim-stop",
+      "kind": "fact",
+      "section": "Usage limits and privacy › Stopping an answer",
+      "question": "What happens when I press Stop during an answer?",
+      "expectDocs": ["Usage limits and privacy"],
+      "mustInclude": [["cancel"]]
+    },
+    {
+      "id": "ru-pro-price",
+      "kind": "ru",
+      "section": "Ledgerly: plans, billing and exports › Plans",
+      "question": "Сколько стоит тариф Pro?",
+      "expectDocs": ["Ledgerly: plans, billing and exports"],
+      "mustInclude": [["12"]]
+    },
+    {
+      "id": "ru-2fa",
+      "kind": "ru",
+      "section": "Ledgerly: account and security › Two-factor authentication",
+      "question": "Как включить двухфакторную аутентификацию?",
+      "expectDocs": ["Ledgerly: account and security"],
+      "mustInclude": [["QR", "Settings > Security", "Security"]]
+    },
+    {
+      "id": "ru-webhook-retry",
+      "kind": "ru",
+      "section": "Ledgerly: integrations and API › Webhooks",
+      "question": "Сколько времени повторяется доставка вебхука, если она не удалась?",
+      "expectDocs": ["Ledgerly: integrations and API"],
+      "mustInclude": [["24"]]
+    },
+    {
+      "id": "multi-pro-api",
+      "kind": "multi",
+      "section": "Plans + API",
+      "question": "How much is the Pro plan, and can I use the REST API on it?",
+      "expectDocs": ["Ledgerly: plans, billing and exports", "Ledgerly: integrations and API"],
+      "mustInclude": [["12"], ["API"]]
+    },
+    {
+      "id": "neg-peru",
+      "kind": "negative",
+      "section": "—",
+      "question": "What is the capital of Peru?",
+      "expectDocs": [],
+      "mustInclude": []
+    },
+    {
+      "id": "neg-android",
+      "kind": "negative",
+      "section": "—",
+      "question": "Is there a Ledgerly mobile app for Android?",
+      "expectDocs": [],
+      "mustInclude": []
+    },
+    {
+      "id": "neg-salesforce",
+      "kind": "negative",
+      "section": "—",
+      "question": "How do I connect Ledgerly to Salesforce?",
+      "expectDocs": [],
+      "mustInclude": []
+    }
+  ]
+}
