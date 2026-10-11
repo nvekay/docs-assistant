@@ -2,7 +2,13 @@ import { FakeLlmProvider } from '../llm/fake.provider';
 import { LlmProvider } from '../llm/llm.types';
 import { readCookie } from './anonymous-user';
 import { conversationTitle } from './chat.service';
-import { buildRetrievalQuery, buildSystemPrompt, extractCitations, RetrievedChunk } from './prompt';
+import {
+  buildRetrievalQuery,
+  buildSystemPrompt,
+  extractCitations,
+  RetrievedChunk,
+  stripCitationMarkers,
+} from './prompt';
 import { rewritePrompt, rewriteQuery } from './query-rewrite';
 import { fuseRankings } from './rank-fusion';
 
@@ -122,5 +128,14 @@ describe('conversationTitle', () => {
     const title = conversationTitle('word '.repeat(40));
     expect(title).toHaveLength(80);
     expect(title.endsWith('…')).toBe(true);
+  });
+});
+
+describe('stripCitationMarkers', () => {
+  it('removes [n] and [1, 3] markers from earlier answers, keeping the text', () => {
+    expect(stripCitationMarkers('The link is valid for 30 minutes [1]. Plans start at $12 [2, 3].')).toBe(
+      'The link is valid for 30 minutes. Plans start at $12.',
+    );
+    expect(stripCitationMarkers('Ledgerly has three plans [1]:\n- Free [1]')).toBe('Ledgerly has three plans:\n- Free');
   });
 });

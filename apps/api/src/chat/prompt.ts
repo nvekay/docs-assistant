@@ -40,6 +40,15 @@ export function buildRetrievalQuery(message: string, previousQuestion?: string):
 }
 
 /** Turns the [n] markers the model actually used into citations; unused sources are dropped */
+/**
+ * Removes [n] markers from an earlier answer before it goes back to the model as history.
+ * Each question renumbers its fragments, so an old "[1]" would point at a different fragment
+ * than the new "[1]" and make the model doubt its own earlier answer.
+ */
+export function stripCitationMarkers(answer: string): string {
+  return answer.replace(/ ?\[\d+(?:\s*,\s*\d+)*\]/g, '');
+}
+
 export function extractCitations(answer: string, sources: RetrievedChunk[]): Citation[] {
   const used = new Set<number>();
   // Matches [2] and also grouped forms such as [1, 3]

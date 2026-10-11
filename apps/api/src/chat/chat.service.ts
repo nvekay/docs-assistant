@@ -15,7 +15,7 @@ import { estimateTokens } from '../llm/fake.provider';
 import { ChatTurn, LLM_PROVIDER, LlmProvider, LlmStreamEvent, TokenUsage } from '../llm/llm.types';
 import { REDIS } from '../redis/redis.module';
 import { UsageService } from '../usage/usage.service';
-import { buildRetrievalQuery, buildSystemPrompt, extractCitations } from './prompt';
+import { buildRetrievalQuery, buildSystemPrompt, extractCitations, stripCitationMarkers } from './prompt';
 import { rewriteQuery } from './query-rewrite';
 import { SlidingWindowRateLimiter } from './rate-limiter';
 import { RetrievalService } from './retrieval.service';
@@ -267,7 +267,9 @@ export class ChatService {
       `SELECT role, content FROM messages WHERE conversation_id = $1 ORDER BY id DESC LIMIT $2`,
       [conversationId, this.config.CHAT_HISTORY_MESSAGES],
     );
-    const turns = rows.reverse();
+    const turns = rows
+      .reverse()
+      .map((t) => (t.role === 'assistant' ? { ...t, content: stripCitationMarkers(t.content) } : t));
     while (turns[0]?.role === 'assistant') turns.shift();
     return turns;
   }
