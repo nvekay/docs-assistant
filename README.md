@@ -149,6 +149,30 @@ ANTHROPIC_API_KEY=...
 
 Search needs no key: embeddings are computed locally from the words of each chunk.
 
+## Answer quality
+
+[`scripts/eval.mjs`](scripts/eval.mjs) asks a running deployment the 43 questions in
+[`evals/questions.json`](evals/questions.json): a fact from every section of every document, paraphrases, questions
+in Russian, a question that needs two documents, and questions the docs don't cover. It checks that the expected
+documents are cited, the key facts are in the answer, and off-topic questions are declined.
+
+Latest run against the live demo (Claude Haiku 5.5, 14 Oct 2026, [full answers](evals/results/2026-10-14T07-32-08-805Z.json)):
+
+| Check                                    | Result |
+| ---------------------------------------- | ------ |
+| All questions                            | 43/43  |
+| Expected documents cited                 | 40/40  |
+| Key facts in the answer                  | 40/40  |
+| Questions the docs don't cover, declined | 3/3    |
+
+$0.0085 for the whole run ($0.0002 per question), median 2.3 s to the first token. An earlier run answered an
+English question in German while declining it; the prompt now asks for the question's language explicitly, also
+when the documentation does not cover the question.
+
+```bash
+WEB_URL=https://docs-assistant-ruddy.vercel.app node scripts/eval.mjs   # ONLY=id1,id2 runs a subset
+```
+
 ## Tests
 
 ```bash

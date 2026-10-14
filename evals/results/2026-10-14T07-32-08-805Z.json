@@ -1,0 +1,1764 @@
+{
+  "base": "https://docs-assistant-ruddy.vercel.app",
+  "at": "2026-10-14T07:32:08.807Z",
+  "results": [
+    {
+      "id": "sec-reset-link",
+      "kind": "fact",
+      "section": "Ledgerly: account and security › Reset your password",
+      "question": "How long is the password reset link valid?",
+      "expectDocs": [
+        "Ledgerly: account and security"
+      ],
+      "mustInclude": [
+        [
+          "30 minutes",
+          "30 min"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: account and security"
+      ],
+      "note": "",
+      "answer": "The password reset link is valid for 30 minutes [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "fe038256-4b4f-4647-9012-287e8aa8f227",
+          "documentTitle": "Ledgerly: account and security",
+          "chunkId": 53,
+          "excerpt": "Ledgerly: account and security › Reset your password\n\nOn the sign-in page, click \"Forgot password?\" and enter your email address. Ledgerly sends a reset link that is valid for 30 minutes. If the email does not arrive within a few minutes, check your spam folder or request a new link; each new link cancels the previous one.\n\nIf you are already signed in, you can change your password in Settings > Security > Change password. You will need your current password.",
+          "score": 0.514
+        }
+      ],
+      "usage": {
+        "inputTokens": 1716,
+        "outputTokens": 36,
+        "costUsd": 0.00019
+      },
+      "ms": 2873,
+      "firstTokenMs": 2823
+    },
+    {
+      "id": "sec-change-password",
+      "kind": "paraphrase",
+      "section": "Ledgerly: account and security › Reset your password",
+      "question": "I'm logged in and want a new password. Where do I do that?",
+      "expectDocs": [
+        "Ledgerly: account and security"
+      ],
+      "mustInclude": [
+        [
+          "Change password",
+          "Settings > Security",
+          "Security"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: account and security"
+      ],
+      "note": "",
+      "answer": "Since you are already signed in, go to **Settings > Security > Change password**. You will need your current password [1].\n\nIf you cannot remember your current password, use the \"Forgot password?\" link on the sign-in page instead. It sends a reset link that is valid for 30 minutes [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "fe038256-4b4f-4647-9012-287e8aa8f227",
+          "documentTitle": "Ledgerly: account and security",
+          "chunkId": 53,
+          "excerpt": "Ledgerly: account and security › Reset your password\n\nOn the sign-in page, click \"Forgot password?\" and enter your email address. Ledgerly sends a reset link that is valid for 30 minutes. If the email does not arrive within a few minutes, check your spam folder or request a new link; each new link cancels the previous one.\n\nIf you are already signed in, you can change your password in Settings > Security > Change password. You will need your current password.",
+          "score": 0.533
+        }
+      ],
+      "usage": {
+        "inputTokens": 1551,
+        "outputTokens": 104,
+        "costUsd": 0.000207
+      },
+      "ms": 2509,
+      "firstTokenMs": 1983
+    },
+    {
+      "id": "sec-2fa-apps",
+      "kind": "fact",
+      "section": "Ledgerly: account and security › Two-factor authentication",
+      "question": "Which authenticator apps can I use for two-factor authentication?",
+      "expectDocs": [
+        "Ledgerly: account and security"
+      ],
+      "mustInclude": [
+        [
+          "Google Authenticator",
+          "1Password"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: account and security"
+      ],
+      "note": "",
+      "answer": "The documentation names these authenticator apps for two-factor authentication:\n\n- Google Authenticator [1]\n- 1Password [1]\n\nThe text says \"such as,\" so other apps may work, but the documentation does not confirm any others.",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "fe038256-4b4f-4647-9012-287e8aa8f227",
+          "documentTitle": "Ledgerly: account and security",
+          "chunkId": 54,
+          "excerpt": "Ledgerly: account and security › Two-factor authentication\n\nLedgerly supports two-factor authentication (2FA) with an authenticator app such as Google Authenticator or 1Password. Turn it on in Settings > Security > Two-factor authentication and scan the QR code. Save the ten backup codes shown at the end: each code works once and lets you sign in if you lose your phone.\n\nTeam plan owners can require 2FA for every member of the workspace.",
+          "score": 0.512
+        }
+      ],
+      "usage": {
+        "inputTokens": 1509,
+        "outputTokens": 104,
+        "costUsd": 0.000203
+      },
+      "ms": 3229,
+      "firstTokenMs": 2808
+    },
+    {
+      "id": "sec-backup-codes",
+      "kind": "fact",
+      "section": "Ledgerly: account and security › Two-factor authentication",
+      "question": "How many 2FA backup codes do I get?",
+      "expectDocs": [
+        "Ledgerly: account and security"
+      ],
+      "mustInclude": [
+        [
+          "ten",
+          "10"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: account and security"
+      ],
+      "note": "",
+      "answer": "You get ten backup codes. They are shown at the end of the 2FA setup, and each code works only once [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "fe038256-4b4f-4647-9012-287e8aa8f227",
+          "documentTitle": "Ledgerly: account and security",
+          "chunkId": 54,
+          "excerpt": "Ledgerly: account and security › Two-factor authentication\n\nLedgerly supports two-factor authentication (2FA) with an authenticator app such as Google Authenticator or 1Password. Turn it on in Settings > Security > Two-factor authentication and scan the QR code. Save the ten backup codes shown at the end: each code works once and lets you sign in if you lose your phone.\n\nTeam plan owners can require 2FA for every member of the workspace.",
+          "score": 0.41
+        }
+      ],
+      "usage": {
+        "inputTokens": 1421,
+        "outputTokens": 59,
+        "costUsd": 0.000172
+      },
+      "ms": 3040,
+      "firstTokenMs": 2915
+    },
+    {
+      "id": "sec-lost-2fa",
+      "kind": "paraphrase",
+      "section": "Ledgerly: account and security › Lost access to 2FA",
+      "question": "My phone was stolen and I don't have my backup codes. How do I get back into my account?",
+      "expectDocs": [
+        "Ledgerly: account and security"
+      ],
+      "mustInclude": [
+        [
+          "support"
+        ],
+        [
+          "business day"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: account and security"
+      ],
+      "note": "",
+      "answer": "If you lost both your phone and your backup codes, contact support from the email address on your account. [2]\n\nFor security, support verifies your identity using details of your last invoices before turning 2FA off. [2] This usually takes one business day. [2]",
+      "citations": [
+        {
+          "index": 2,
+          "documentId": "fe038256-4b4f-4647-9012-287e8aa8f227",
+          "documentTitle": "Ledgerly: account and security",
+          "chunkId": 59,
+          "excerpt": "Ledgerly: account and security › Lost access to 2FA\n\nIf you lost both your phone and your backup codes, contact support from the email address of your account. For security, support verifies your identity with details of your last invoices before turning 2FA off. This usually takes one business day.",
+          "score": 0.336
+        }
+      ],
+      "usage": {
+        "inputTokens": 1742,
+        "outputTokens": 265,
+        "costUsd": 0.000307
+      },
+      "ms": 2834,
+      "firstTokenMs": 2510
+    },
+    {
+      "id": "sec-member-role",
+      "kind": "fact",
+      "section": "Ledgerly: account and security › Team roles",
+      "question": "What can't a Member do on the Team plan?",
+      "expectDocs": [
+        "Ledgerly: account and security"
+      ],
+      "mustInclude": [
+        [
+          "delete clients",
+          "change settings"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: account and security"
+      ],
+      "note": "",
+      "answer": "On the Team plan, Members cannot delete clients or change settings [1]. They can create and send invoices, but they don't have the Owner's billing and member management rights or the Admin's permissions [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "fe038256-4b4f-4647-9012-287e8aa8f227",
+          "documentTitle": "Ledgerly: account and security",
+          "chunkId": 60,
+          "excerpt": "Ledgerly: account and security › Team roles\n\nOn the Team plan there are three roles. Owners manage billing and members. Admins can do everything except billing. Members can create and send invoices but cannot delete clients or change settings.",
+          "score": 0.302
+        }
+      ],
+      "usage": {
+        "inputTokens": 1442,
+        "outputTokens": 90,
+        "costUsd": 0.000189
+      },
+      "ms": 2285,
+      "firstTokenMs": 1973
+    },
+    {
+      "id": "sec-restore-workspace",
+      "kind": "paraphrase",
+      "section": "Ledgerly: account and security › Deleting your account",
+      "question": "I deleted my workspace by mistake. Can I get it back?",
+      "expectDocs": [
+        "Ledgerly: account and security"
+      ],
+      "mustInclude": [
+        [
+          "30 days"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: account and security"
+      ],
+      "note": "",
+      "answer": "Yes, if it was recently deleted. According to the documentation, deletion is permanent after 30 days, and during those 30 days you can restore the workspace by signing in [1]. After that period, the documentation does not say whether recovery is possible.\n\nOnly the account owner can delete the workspace, in Settings > Danger zone [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "fe038256-4b4f-4647-9012-287e8aa8f227",
+          "documentTitle": "Ledgerly: account and security",
+          "chunkId": 61,
+          "excerpt": "Ledgerly: account and security › Deleting your account\n\nThe account owner can delete the workspace in Settings > Danger zone. Deletion is permanent after 30 days; during those 30 days you can restore the workspace by signing in.",
+          "score": 0.236
+        }
+      ],
+      "usage": {
+        "inputTokens": 1230,
+        "outputTokens": 130,
+        "costUsd": 0.000188
+      },
+      "ms": 2890,
+      "firstTokenMs": 2300
+    },
+    {
+      "id": "bill-team-price",
+      "kind": "fact",
+      "section": "Ledgerly: plans, billing and exports › Plans",
+      "question": "How much does the Team plan cost?",
+      "expectDocs": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "mustInclude": [
+        [
+          "$29",
+          "29"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "note": "",
+      "answer": "The Team plan costs $29 per month for up to 5 users, with roles and a shared client list [1]. Annual billing gives two months free [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "429cabbd-4a08-4d39-9e99-19c16480ef1b",
+          "documentTitle": "Ledgerly: plans, billing and exports",
+          "chunkId": 29,
+          "excerpt": "Ledgerly: plans, billing and exports › Plans\n\nLedgerly has three plans:\n\n- Free: up to 5 clients and 10 invoices per month.\n- Pro: $12 per month, unlimited clients and invoices, recurring invoices and payment reminders.\n- Team: $29 per month for up to 5 users, with roles and a shared client list.\n\nAnnual billing gives two months free. You can upgrade or downgrade at any time in Settings > Plan; the change is prorated on your next bill.",
+          "score": 0.218
+        }
+      ],
+      "usage": {
+        "inputTokens": 1432,
+        "outputTokens": 68,
+        "costUsd": 0.000177
+      },
+      "ms": 2380,
+      "firstTokenMs": 2249
+    },
+    {
+      "id": "bill-yearly-discount",
+      "kind": "paraphrase",
+      "section": "Ledgerly: plans, billing and exports › Plans",
+      "question": "Is it cheaper if I pay for a whole year up front?",
+      "expectDocs": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "mustInclude": [
+        [
+          "two months",
+          "2 months"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "note": "",
+      "answer": "Yes. Annual billing gives two months free [1]. The documentation doesn't state the annual prices directly, so the exact amount isn't listed.\n\nFor reference, the monthly prices are:\n- Pro: $12 per month [1]\n- Team: $29 per month for up to 5 users [1]\n\nIf you upgrade or downgrade later, the change is prorated on your next bill [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "429cabbd-4a08-4d39-9e99-19c16480ef1b",
+          "documentTitle": "Ledgerly: plans, billing and exports",
+          "chunkId": 29,
+          "excerpt": "Ledgerly: plans, billing and exports › Plans\n\nLedgerly has three plans:\n\n- Free: up to 5 clients and 10 invoices per month.\n- Pro: $12 per month, unlimited clients and invoices, recurring invoices and payment reminders.\n- Team: $29 per month for up to 5 users, with roles and a shared client list.\n\nAnnual billing gives two months free. You can upgrade or downgrade at any time in Settings > Plan; the change is prorated on your next bill.",
+          "score": 0.174
+        }
+      ],
+      "usage": {
+        "inputTokens": 1406,
+        "outputTokens": 314,
+        "costUsd": 0.000298
+      },
+      "ms": 3850,
+      "firstTokenMs": 3331
+    },
+    {
+      "id": "bill-failed-payment",
+      "kind": "fact",
+      "section": "Ledgerly: plans, billing and exports › Your Ledgerly bill",
+      "question": "What happens if my card payment fails?",
+      "expectDocs": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "mustInclude": [
+        [
+          "read-only",
+          "read only",
+          "14 days"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "note": "",
+      "answer": "If a payment fails, Ledgerly retries it after 3 and 7 days and emails the account owner each time [1]. After 14 days without payment the workspace switches to read-only mode: you can still view and download invoices, but you cannot create or send new ones [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "429cabbd-4a08-4d39-9e99-19c16480ef1b",
+          "documentTitle": "Ledgerly: plans, billing and exports",
+          "chunkId": 30,
+          "excerpt": "Ledgerly: plans, billing and exports › Your Ledgerly bill\n\nLedgerly charges your card on the same day each month. Receipts are emailed to the account owner and can be downloaded from Settings > Billing history. To change the card, open Settings > Payment method.\n\nIf a payment fails, Ledgerly retries it after 3 and 7 days and emails the account owner each time. After 14 days without payment the workspace switches to read-only mode: you can still view and download invoices, but you cannot create or send new ones.",
+          "score": 0.362
+        }
+      ],
+      "usage": {
+        "inputTokens": 1645,
+        "outputTokens": 111,
+        "costUsd": 0.00022
+      },
+      "ms": 2910,
+      "firstTokenMs": 2639
+    },
+    {
+      "id": "bill-receipts",
+      "kind": "paraphrase",
+      "section": "Ledgerly: plans, billing and exports › Your Ledgerly bill",
+      "question": "Where can I get copies of my past receipts?",
+      "expectDocs": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "mustInclude": [
+        [
+          "Billing history"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "note": "",
+      "answer": "Receipts are emailed to the account owner, and past ones can be downloaded from Settings > Billing history [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "429cabbd-4a08-4d39-9e99-19c16480ef1b",
+          "documentTitle": "Ledgerly: plans, billing and exports",
+          "chunkId": 30,
+          "excerpt": "Ledgerly: plans, billing and exports › Your Ledgerly bill\n\nLedgerly charges your card on the same day each month. Receipts are emailed to the account owner and can be downloaded from Settings > Billing history. To change the card, open Settings > Payment method.\n\nIf a payment fails, Ledgerly retries it after 3 and 7 days and emails the account owner each time. After 14 days without payment the workspace switches to read-only mode: you can still view and download invoices, but you cannot create or send new ones.",
+          "score": 0.205
+        }
+      ],
+      "usage": {
+        "inputTokens": 1389,
+        "outputTokens": 58,
+        "costUsd": 0.000168
+      },
+      "ms": 2269,
+      "firstTokenMs": 1923
+    },
+    {
+      "id": "bill-csv-fields",
+      "kind": "fact",
+      "section": "Ledgerly: plans, billing and exports › Exporting invoices",
+      "question": "Which fields does a CSV export of invoices include?",
+      "expectDocs": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "mustInclude": [
+        [
+          "invoice number"
+        ],
+        [
+          "due date"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "note": "",
+      "answer": "A CSV export of invoices includes these fields: invoice number, client, issue date, due date, currency, subtotal, tax, total and status [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "429cabbd-4a08-4d39-9e99-19c16480ef1b",
+          "documentTitle": "Ledgerly: plans, billing and exports",
+          "chunkId": 31,
+          "excerpt": "Ledgerly: plans, billing and exports › Exporting invoices\n\nYou can export invoices to CSV or to a ZIP archive of PDFs. Open Invoices, filter by date range or status, and click \"Export\". CSV exports include the invoice number, client, issue date, due date, currency, subtotal, tax, total and status. Exports are available on all plans, including Free.",
+          "score": 0.382
+        }
+      ],
+      "usage": {
+        "inputTokens": 1572,
+        "outputTokens": 66,
+        "costUsd": 0.00019
+      },
+      "ms": 2194,
+      "firstTokenMs": 2030
+    },
+    {
+      "id": "bill-export-free",
+      "kind": "fact",
+      "section": "Ledgerly: plans, billing and exports › Exporting invoices",
+      "question": "Can I export invoices on the Free plan?",
+      "expectDocs": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "mustInclude": [
+        [
+          "all plans",
+          "including Free",
+          "yes"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "note": "",
+      "answer": "Yes. Exports are available on all plans, including Free [1]. You can export invoices to CSV or to a ZIP archive of PDFs by opening Invoices, filtering by date range or status, and clicking \"Export\" [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "429cabbd-4a08-4d39-9e99-19c16480ef1b",
+          "documentTitle": "Ledgerly: plans, billing and exports",
+          "chunkId": 31,
+          "excerpt": "Ledgerly: plans, billing and exports › Exporting invoices\n\nYou can export invoices to CSV or to a ZIP archive of PDFs. Open Invoices, filter by date range or status, and click \"Export\". CSV exports include the invoice number, client, issue date, due date, currency, subtotal, tax, total and status. Exports are available on all plans, including Free.",
+          "score": 0.332
+        }
+      ],
+      "usage": {
+        "inputTokens": 1543,
+        "outputTokens": 94,
+        "costUsd": 0.000201
+      },
+      "ms": 2793,
+      "firstTokenMs": 2539
+    },
+    {
+      "id": "bill-data-after-cancel",
+      "kind": "fact",
+      "section": "Ledgerly: plans, billing and exports › Cancelling",
+      "question": "How long is my data kept after I cancel my subscription?",
+      "expectDocs": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "mustInclude": [
+        [
+          "90 days"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "note": "",
+      "answer": "Your data is kept for 90 days after cancellation, so you can export it or reactivate the account [1].\n\nYour paid features stay active until the end of the current billing period [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "429cabbd-4a08-4d39-9e99-19c16480ef1b",
+          "documentTitle": "Ledgerly: plans, billing and exports",
+          "chunkId": 32,
+          "excerpt": "Ledgerly: plans, billing and exports › Cancelling\n\nTo cancel, open Settings > Plan and click \"Cancel subscription\". Your paid features stay active until the end of the current billing period. Your data is kept for 90 days after cancellation, so you can export it or reactivate the account.",
+          "score": 0.411
+        }
+      ],
+      "usage": {
+        "inputTokens": 1243,
+        "outputTokens": 89,
+        "costUsd": 0.000169
+      },
+      "ms": 2176,
+      "firstTokenMs": 1906
+    },
+    {
+      "id": "start-what-is",
+      "kind": "fact",
+      "section": "Ledgerly: getting started (intro)",
+      "question": "What is Ledgerly and who is it for?",
+      "expectDocs": [
+        "Ledgerly: getting started"
+      ],
+      "mustInclude": [
+        [
+          "invoic"
+        ],
+        [
+          "freelancer",
+          "small business"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: getting started"
+      ],
+      "note": "",
+      "answer": "Ledgerly is an invoicing app for freelancers and small businesses. You create clients, send invoices, and track who has paid [1].\n\nThe fragments do not say anything more specific about who it is for beyond freelancers and small businesses.",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "857b4340-fea9-4a5d-be21-454d570629d1",
+          "documentTitle": "Ledgerly: getting started",
+          "chunkId": 43,
+          "excerpt": "Ledgerly: getting started\n\nLedgerly is an invoicing app for freelancers and small businesses. You create clients, send invoices, and track who has paid.",
+          "score": 0.389
+        }
+      ],
+      "usage": {
+        "inputTokens": 1344,
+        "outputTokens": 104,
+        "costUsd": 0.000186
+      },
+      "ms": 5114,
+      "firstTokenMs": 4857
+    },
+    {
+      "id": "start-currency",
+      "kind": "fact",
+      "section": "Ledgerly: getting started › Create your workspace",
+      "question": "Can I change my default currency later?",
+      "expectDocs": [
+        "Ledgerly: getting started"
+      ],
+      "mustInclude": [
+        [
+          "Business profile"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: getting started"
+      ],
+      "note": "",
+      "answer": "Yes. The default currency can be changed later in Settings > Business profile [1]. However, invoices that were already sent keep their original currency [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "857b4340-fea9-4a5d-be21-454d570629d1",
+          "documentTitle": "Ledgerly: getting started",
+          "chunkId": 44,
+          "excerpt": "Ledgerly: getting started › Create your workspace\n\nSign up at the Ledgerly website with your email address. After confirming your email, you are asked for your business name, country and default currency. The default currency can be changed later in Settings > Business profile, but invoices that were already sent keep their original currency.",
+          "score": 0.467
+        }
+      ],
+      "usage": {
+        "inputTokens": 1342,
+        "outputTokens": 66,
+        "costUsd": 0.000167
+      },
+      "ms": 2484,
+      "firstTokenMs": 2339
+    },
+    {
+      "id": "start-client-required",
+      "kind": "fact",
+      "section": "Ledgerly: getting started › Add your first client",
+      "question": "Which fields are required when adding a client?",
+      "expectDocs": [
+        "Ledgerly: getting started"
+      ],
+      "mustInclude": [
+        [
+          "name"
+        ],
+        [
+          "email"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: getting started"
+      ],
+      "note": "",
+      "answer": "Only the client name and email are required when you add a client [1]. A billing address, a tax ID and a default payment term (for example, 14 days) are optional [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "857b4340-fea9-4a5d-be21-454d570629d1",
+          "documentTitle": "Ledgerly: getting started",
+          "chunkId": 45,
+          "excerpt": "Ledgerly: getting started › Add your first client\n\nOpen Clients and click \"New client\". Only the client name and email are required. You can also add a billing address, a tax ID and a default payment term (for example, 14 days). Clients can be imported from a CSV file with the columns name, email, address and tax_id.",
+          "score": 0.283
+        }
+      ],
+      "usage": {
+        "inputTokens": 1346,
+        "outputTokens": 72,
+        "costUsd": 0.000171
+      },
+      "ms": 2501,
+      "firstTokenMs": 2173
+    },
+    {
+      "id": "start-import-clients",
+      "kind": "paraphrase",
+      "section": "Ledgerly: getting started › Add your first client",
+      "question": "Can I bring in my customers from a spreadsheet instead of typing them one by one?",
+      "expectDocs": [
+        "Ledgerly: getting started"
+      ],
+      "mustInclude": [
+        [
+          "CSV"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: getting started"
+      ],
+      "note": "",
+      "answer": "Yes. Clients can be imported from a CSV file with the columns name, email, address and tax_id [1].\n\nOnly the client name and email are required when adding a client manually [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "857b4340-fea9-4a5d-be21-454d570629d1",
+          "documentTitle": "Ledgerly: getting started",
+          "chunkId": 45,
+          "excerpt": "Ledgerly: getting started › Add your first client\n\nOpen Clients and click \"New client\". Only the client name and email are required. You can also add a billing address, a tax ID and a default payment term (for example, 14 days). Clients can be imported from a CSV file with the columns name, email, address and tax_id.",
+          "score": 0.054
+        }
+      ],
+      "usage": {
+        "inputTokens": 1634,
+        "outputTokens": 89,
+        "costUsd": 0.000208
+      },
+      "ms": 2745,
+      "firstTokenMs": 2321
+    },
+    {
+      "id": "start-invoice-statuses",
+      "kind": "fact",
+      "section": "Ledgerly: getting started › Send your first invoice",
+      "question": "What statuses does an invoice go through?",
+      "expectDocs": [
+        "Ledgerly: getting started"
+      ],
+      "mustInclude": [
+        [
+          "Draft"
+        ],
+        [
+          "Viewed"
+        ],
+        [
+          "Paid"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: getting started"
+      ],
+      "note": "",
+      "answer": "An invoice moves through these statuses:\n\n- **Draft**: the invoice is created but not yet sent [1]\n- **Sent**: the invoice is emailed to the client as a PDF with a payment link [1]\n- **Viewed**: the client has opened the invoice [1]\n- **Paid**: payment has arrived [1]",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "857b4340-fea9-4a5d-be21-454d570629d1",
+          "documentTitle": "Ledgerly: getting started",
+          "chunkId": 46,
+          "excerpt": "Ledgerly: getting started › Send your first invoice\n\nOpen Invoices and click \"New invoice\". Choose a client, add line items with a description, quantity and unit price, and Ledgerly calculates taxes and the total. Click \"Send\" to email the invoice as a PDF with a payment link. The invoice status changes from Draft to Sent, then to Viewed when the client opens it, and to Paid when payment arrives.",
+          "score": 0.364
+        }
+      ],
+      "usage": {
+        "inputTokens": 1464,
+        "outputTokens": 135,
+        "costUsd": 0.000214
+      },
+      "ms": 2662,
+      "firstTokenMs": 2101
+    },
+    {
+      "id": "start-recurring",
+      "kind": "paraphrase",
+      "section": "Ledgerly: getting started › Recurring invoices",
+      "question": "How do I bill a client automatically every month for a retainer?",
+      "expectDocs": [
+        "Ledgerly: getting started"
+      ],
+      "mustInclude": [
+        [
+          "Make recurring",
+          "recurring"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: getting started",
+        "Ledgerly: plans, billing and exports"
+      ],
+      "note": "",
+      "answer": "Open the invoice you want to repeat and choose \"Make recurring\", then select a monthly schedule. Ledgerly creates and sends each new invoice automatically on the scheduled date, using the same line items [1].\n\nRecurring invoices are listed under the Pro plan features, so you need Pro ($12 per month) or higher to use them [2].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "857b4340-fea9-4a5d-be21-454d570629d1",
+          "documentTitle": "Ledgerly: getting started",
+          "chunkId": 47,
+          "excerpt": "Ledgerly: getting started › Recurring invoices\n\nFor retainers and subscriptions, open an invoice and choose \"Make recurring\". You can repeat it weekly, monthly or yearly. Ledgerly creates and sends each new invoice automatically on the scheduled date, using the same line items.",
+          "score": 0.221
+        },
+        {
+          "index": 2,
+          "documentId": "429cabbd-4a08-4d39-9e99-19c16480ef1b",
+          "documentTitle": "Ledgerly: plans, billing and exports",
+          "chunkId": 29,
+          "excerpt": "Ledgerly: plans, billing and exports › Plans\n\nLedgerly has three plans:\n\n- Free: up to 5 clients and 10 invoices per month.\n- Pro: $12 per month, unlimited clients and invoices, recurring invoices and payment reminders.\n- Team: $29 per month for up to 5 users, with roles and a shared client list.\n\nAnnual billing gives two months free. You can upgrade or downgrade at any time in Settings > Plan; the change is prorated on your next bill.",
+          "score": 0.207
+        }
+      ],
+      "usage": {
+        "inputTokens": 1416,
+        "outputTokens": 142,
+        "costUsd": 0.000213
+      },
+      "ms": 2660,
+      "firstTokenMs": 2255
+    },
+    {
+      "id": "int-payment-fee",
+      "kind": "fact",
+      "section": "Ledgerly: integrations and API › Online payments",
+      "question": "Does Ledgerly charge a fee on online card payments?",
+      "expectDocs": [
+        "Ledgerly: integrations and API"
+      ],
+      "mustInclude": [
+        [
+          "fee"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: integrations and API"
+      ],
+      "note": "",
+      "answer": "No. Ledgerly does not charge a fee on top of the payment provider's fees [1]. Card and PayPal payments are processed through Stripe or PayPal, which connect in Settings > Payments [1]. The documentation does not state what those providers charge.",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "db3e8d13-3b72-4c41-bece-5571cd4cbb32",
+          "documentTitle": "Ledgerly: integrations and API",
+          "chunkId": 55,
+          "excerpt": "Ledgerly: integrations and API › Online payments\n\nConnect Stripe or PayPal in Settings > Payments so clients can pay invoices by card or PayPal. When a payment succeeds, the invoice is marked Paid automatically. Ledgerly does not charge a fee on top of the payment provider's fees.",
+          "score": 0.48
+        }
+      ],
+      "usage": {
+        "inputTokens": 1492,
+        "outputTokens": 116,
+        "costUsd": 0.000207
+      },
+      "ms": 2119,
+      "firstTokenMs": 1712
+    },
+    {
+      "id": "int-accounting",
+      "kind": "fact",
+      "section": "Ledgerly: integrations and API › Accounting software",
+      "question": "Which accounting software can Ledgerly sync with?",
+      "expectDocs": [
+        "Ledgerly: integrations and API"
+      ],
+      "mustInclude": [
+        [
+          "QuickBooks"
+        ],
+        [
+          "Xero"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: integrations and API"
+      ],
+      "note": "",
+      "answer": "Ledgerly can sync paid invoices to QuickBooks Online and Xero once a day. Connect them in Settings > Integrations. [1]",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "db3e8d13-3b72-4c41-bece-5571cd4cbb32",
+          "documentTitle": "Ledgerly: integrations and API",
+          "chunkId": 56,
+          "excerpt": "Ledgerly: integrations and API › Accounting software\n\nLedgerly can sync paid invoices to QuickBooks Online and Xero once a day. Connect them in Settings > Integrations. Only invoices with the status Paid are synced, and each invoice is synced once.",
+          "score": 0.487
+        }
+      ],
+      "usage": {
+        "inputTokens": 1402,
+        "outputTokens": 87,
+        "costUsd": 0.000184
+      },
+      "ms": 2280,
+      "firstTokenMs": 2128
+    },
+    {
+      "id": "int-api-limit",
+      "kind": "fact",
+      "section": "Ledgerly: integrations and API › API",
+      "question": "What is the rate limit of the Ledgerly API?",
+      "expectDocs": [
+        "Ledgerly: integrations and API"
+      ],
+      "mustInclude": [
+        [
+          "60"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: integrations and API"
+      ],
+      "note": "",
+      "answer": "The Ledgerly REST API is limited to 60 requests per minute per key. Requests over the limit receive HTTP status 429 with a Retry-After header. [1]",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "db3e8d13-3b72-4c41-bece-5571cd4cbb32",
+          "documentTitle": "Ledgerly: integrations and API",
+          "chunkId": 57,
+          "excerpt": "Ledgerly: integrations and API › API\n\nThe Ledgerly REST API is available on the Pro and Team plans. Create an API key in Settings > API keys; the key is shown only once, so store it securely. Send it in the Authorization header as \"Bearer\" followed by the key.\n\nThe API is limited to 60 requests per minute per key. Requests over the limit receive HTTP status 429 with a Retry-After header.",
+          "score": 0.52
+        }
+      ],
+      "usage": {
+        "inputTokens": 1391,
+        "outputTokens": 81,
+        "costUsd": 0.00018
+      },
+      "ms": 2828,
+      "firstTokenMs": 2679
+    },
+    {
+      "id": "int-api-plans",
+      "kind": "fact",
+      "section": "Ledgerly: integrations and API › API",
+      "question": "Which plans include API access?",
+      "expectDocs": [
+        "Ledgerly: integrations and API"
+      ],
+      "mustInclude": [
+        [
+          "Pro"
+        ],
+        [
+          "Team"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: integrations and API",
+        "Ledgerly: plans, billing and exports"
+      ],
+      "note": "",
+      "answer": "According to the documentation, the Ledgerly REST API is available on the Pro and Team plans [1]. The Free plan is not listed as including API access [1][4].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "db3e8d13-3b72-4c41-bece-5571cd4cbb32",
+          "documentTitle": "Ledgerly: integrations and API",
+          "chunkId": 57,
+          "excerpt": "Ledgerly: integrations and API › API\n\nThe Ledgerly REST API is available on the Pro and Team plans. Create an API key in Settings > API keys; the key is shown only once, so store it securely. Send it in the Authorization header as \"Bearer\" followed by the key.\n\nThe API is limited to 60 requests per minute per key. Requests over the limit receive HTTP status 429 with a Retry-After header.",
+          "score": 0.335
+        },
+        {
+          "index": 4,
+          "documentId": "429cabbd-4a08-4d39-9e99-19c16480ef1b",
+          "documentTitle": "Ledgerly: plans, billing and exports",
+          "chunkId": 29,
+          "excerpt": "Ledgerly: plans, billing and exports › Plans\n\nLedgerly has three plans:\n\n- Free: up to 5 clients and 10 invoices per month.\n- Pro: $12 per month, unlimited clients and invoices, recurring invoices and payment reminders.\n- Team: $29 per month for up to 5 users, with roles and a shared client list.\n\nAnnual billing gives two months free. You can upgrade or downgrade at any time in Settings > Plan; the change is prorated on your next bill.",
+          "score": 0.149
+        }
+      ],
+      "usage": {
+        "inputTokens": 1440,
+        "outputTokens": 70,
+        "costUsd": 0.000179
+      },
+      "ms": 2247,
+      "firstTokenMs": 1816
+    },
+    {
+      "id": "int-webhook-verify",
+      "kind": "paraphrase",
+      "section": "Ledgerly: integrations and API › Webhooks",
+      "question": "How can my server be sure a webhook request really came from Ledgerly?",
+      "expectDocs": [
+        "Ledgerly: integrations and API"
+      ],
+      "mustInclude": [
+        [
+          "HMAC",
+          "Ledgerly-Signature",
+          "signature"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: integrations and API"
+      ],
+      "note": "",
+      "answer": "Each webhook request is signed with an HMAC-SHA256 signature sent in the Ledgerly-Signature header, which lets your server verify that it came from Ledgerly [1]. The documentation fragments do not describe how to compute or check that signature (for example, which secret to use or the exact verification steps), so I can't give you those details.",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "db3e8d13-3b72-4c41-bece-5571cd4cbb32",
+          "documentTitle": "Ledgerly: integrations and API",
+          "chunkId": 58,
+          "excerpt": "Ledgerly: integrations and API › Webhooks\n\nWebhooks notify your server when something happens, for example invoice.sent, invoice.viewed and invoice.paid. Add an endpoint URL in Settings > Webhooks. Each request is signed with an HMAC-SHA256 signature in the Ledgerly-Signature header, so you can verify that it came from Ledgerly. Failed deliveries are retried for up to 24 hours.",
+          "score": 0.351
+        }
+      ],
+      "usage": {
+        "inputTokens": 1511,
+        "outputTokens": 148,
+        "costUsd": 0.000225
+      },
+      "ms": 4031,
+      "firstTokenMs": 3519
+    },
+    {
+      "id": "int-webhook-retry",
+      "kind": "fact",
+      "section": "Ledgerly: integrations and API › Webhooks",
+      "question": "How long are failed webhook deliveries retried?",
+      "expectDocs": [
+        "Ledgerly: integrations and API"
+      ],
+      "mustInclude": [
+        [
+          "24 hours"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: integrations and API"
+      ],
+      "note": "",
+      "answer": "Failed webhook deliveries are retried for up to 24 hours [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "db3e8d13-3b72-4c41-bece-5571cd4cbb32",
+          "documentTitle": "Ledgerly: integrations and API",
+          "chunkId": 58,
+          "excerpt": "Ledgerly: integrations and API › Webhooks\n\nWebhooks notify your server when something happens, for example invoice.sent, invoice.viewed and invoice.paid. Add an endpoint URL in Settings > Webhooks. Each request is signed with an HMAC-SHA256 signature in the Ledgerly-Signature header, so you can verify that it came from Ledgerly. Failed deliveries are retried for up to 24 hours.",
+          "score": 0.123
+        }
+      ],
+      "usage": {
+        "inputTokens": 1303,
+        "outputTokens": 51,
+        "costUsd": 0.000156
+      },
+      "ms": 5149,
+      "firstTokenMs": 5082
+    },
+    {
+      "id": "how-internet",
+      "kind": "fact",
+      "section": "How the Docs Assistant works (intro)",
+      "question": "Does the Docs Assistant search the internet?",
+      "expectDocs": [
+        "How the Docs Assistant works"
+      ],
+      "mustInclude": [
+        [
+          "no",
+          "does not",
+          "doesn't",
+          "only"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "How the Docs Assistant works"
+      ],
+      "note": "",
+      "answer": "No. The Docs Assistant answers only from documents an administrator has uploaded, and it does not search the internet [1]. It also does not use general knowledge to fill gaps [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "4b600a1f-4dff-4cdd-a166-6c0b3781f7d8",
+          "documentTitle": "How the Docs Assistant works",
+          "chunkId": 62,
+          "excerpt": "How the Docs Assistant works\n\nThe Docs Assistant answers questions using only the documents an administrator has uploaded. It does not search the internet and it does not use general knowledge to fill gaps.",
+          "score": 0.532
+        }
+      ],
+      "usage": {
+        "inputTokens": 1531,
+        "outputTokens": 91,
+        "costUsd": 0.000199
+      },
+      "ms": 3175,
+      "firstTokenMs": 2693
+    },
+    {
+      "id": "how-indexing-retries",
+      "kind": "fact",
+      "section": "How the Docs Assistant works › From document to searchable chunks",
+      "question": "What happens if a web page can't be downloaded during indexing?",
+      "expectDocs": [
+        "How the Docs Assistant works"
+      ],
+      "mustInclude": [
+        [
+          "four",
+          "4"
+        ],
+        [
+          "failed"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "How the Docs Assistant works"
+      ],
+      "note": "",
+      "answer": "If a web page can't be downloaded during indexing, the worker retries up to four times, with pauses of 2, 4 and 8 seconds between attempts [1]. After the last attempt, the document is marked \"failed\" and the error is shown in the admin panel [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "4b600a1f-4dff-4cdd-a166-6c0b3781f7d8",
+          "documentTitle": "How the Docs Assistant works",
+          "chunkId": 63,
+          "excerpt": "How the Docs Assistant works › From document to searchable chunks\n\nWhen an administrator uploads Markdown files, PDFs or a web page address, each document is saved with the status \"queued\" and a background worker picks it up. The worker extracts the text and splits it by section: every heading starts a new chunk of up to about 300 tokens, and each chunk begins with a line naming the document and the section, such as \"Ledgerly: account and security › Reset your password\". Each chunk is also turned into an embedding, a list of 1536 numbers computed from the words it contains. The chunks are stored in PostgreSQL, with the pgvector extension for the embeddings and a full-text index for the words. When indexing finishes, the document status changes to \"ready\".\n\nIf indexing fails, for example because a web page cannot be downloaded, the worker retries up to four times with growing pauses of 2, 4 and 8 seconds. After the last attempt the document is marked \"failed\" and the error is shown in the admin panel.",
+          "score": 0.31
+        }
+      ],
+      "usage": {
+        "inputTokens": 1710,
+        "outputTokens": 117,
+        "costUsd": 0.00023
+      },
+      "ms": 3682,
+      "firstTokenMs": 3184
+    },
+    {
+      "id": "how-citation-numbers",
+      "kind": "paraphrase",
+      "section": "How the Docs Assistant works › Citations",
+      "question": "What do the numbers in square brackets in an answer mean?",
+      "expectDocs": [
+        "How the Docs Assistant works"
+      ],
+      "mustInclude": [
+        [
+          "fragment"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "How the Docs Assistant works"
+      ],
+      "note": "",
+      "answer": "Each number in square brackets refers to a documentation fragment that the answer is based on. Clicking the number opens the exact text the statement comes from, along with the document, the section and the similarity score. Only fragments that the answer actually cites are shown [2].",
+      "citations": [
+        {
+          "index": 2,
+          "documentId": "4b600a1f-4dff-4cdd-a166-6c0b3781f7d8",
+          "documentTitle": "How the Docs Assistant works",
+          "chunkId": 65,
+          "excerpt": "How the Docs Assistant works › Citations\n\nEach number in an answer refers to a documentation fragment. Clicking the number opens the exact text the statement is based on, together with the document, the section and the similarity score. Only fragments the answer actually cites are shown.",
+          "score": 0.147
+        }
+      ],
+      "usage": {
+        "inputTokens": 1390,
+        "outputTokens": 103,
+        "costUsd": 0.000191
+      },
+      "ms": 2382,
+      "firstTokenMs": 2149
+    },
+    {
+      "id": "how-no-answer",
+      "kind": "fact",
+      "section": "How the Docs Assistant works › When the documentation has no answer",
+      "question": "What does the assistant do when the documentation has no answer to a question?",
+      "expectDocs": [
+        "How the Docs Assistant works"
+      ],
+      "mustInclude": [
+        [
+          "not cover",
+          "doesn't cover",
+          "does not cover"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "How the Docs Assistant works"
+      ],
+      "note": "",
+      "answer": "If none of the fragments answers the question, the model says that the documentation does not cover it. This is intentional, because an honest \"not covered\" is better than a confident guess [2]. The assistant answers only from the uploaded documents and does not use general knowledge to fill gaps [3].",
+      "citations": [
+        {
+          "index": 2,
+          "documentId": "4b600a1f-4dff-4cdd-a166-6c0b3781f7d8",
+          "documentTitle": "How the Docs Assistant works",
+          "chunkId": 66,
+          "excerpt": "How the Docs Assistant works › When the documentation has no answer\n\nIf none of the fragments answers the question, the model says that the documentation does not cover it. This is intentional: an honest \"not covered\" is better than a confident guess.",
+          "score": 0.467
+        },
+        {
+          "index": 3,
+          "documentId": "4b600a1f-4dff-4cdd-a166-6c0b3781f7d8",
+          "documentTitle": "How the Docs Assistant works",
+          "chunkId": 62,
+          "excerpt": "How the Docs Assistant works\n\nThe Docs Assistant answers questions using only the documents an administrator has uploaded. It does not search the internet and it does not use general knowledge to fill gaps.",
+          "score": 0.228
+        }
+      ],
+      "usage": {
+        "inputTokens": 1584,
+        "outputTokens": 135,
+        "costUsd": 0.000226
+      },
+      "ms": 2881,
+      "firstTokenMs": 2481
+    },
+    {
+      "id": "lim-per-minute",
+      "kind": "fact",
+      "section": "Usage limits and privacy › Rate limit",
+      "question": "How many questions can I ask per minute?",
+      "expectDocs": [
+        "Usage limits and privacy"
+      ],
+      "mustInclude": [
+        [
+          "10"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Usage limits and privacy"
+      ],
+      "note": "",
+      "answer": "Each visitor can ask up to 10 questions per minute. If you ask more, the assistant replies with \"Too many questions in a short time\" and tells you how many seconds to wait [1]. The limit uses a sliding window: as soon as your oldest question is more than a minute old, you can ask again [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "42cf1790-a750-4d7d-bccd-a04c3b1c1a6f",
+          "documentTitle": "Usage limits and privacy",
+          "chunkId": 68,
+          "excerpt": "Usage limits and privacy › Rate limit\n\nEach visitor can ask up to 10 questions per minute. If you ask more, the assistant replies with \"Too many questions in a short time\" and tells you how many seconds to wait. The limit uses a sliding window: as soon as your oldest question is more than a minute old, you can ask again.",
+          "score": 0.546
+        }
+      ],
+      "usage": {
+        "inputTokens": 1544,
+        "outputTokens": 120,
+        "costUsd": 0.000214
+      },
+      "ms": 2328,
+      "firstTokenMs": 2013
+    },
+    {
+      "id": "lim-daily-budget",
+      "kind": "fact",
+      "section": "Usage limits and privacy › Daily limit",
+      "question": "What is the daily token budget per visitor?",
+      "expectDocs": [
+        "Usage limits and privacy"
+      ],
+      "mustInclude": [
+        [
+          "200,000",
+          "200 000",
+          "200000",
+          "200k"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Usage limits and privacy"
+      ],
+      "note": "",
+      "answer": "Each visitor has a daily budget of 200,000 tokens [1]. There is also a shared daily budget for the whole demo, and budgets reset at 00:00 UTC [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "42cf1790-a750-4d7d-bccd-a04c3b1c1a6f",
+          "documentTitle": "Usage limits and privacy",
+          "chunkId": 69,
+          "excerpt": "Usage limits and privacy › Daily limit\n\nEach visitor has a daily budget of 200,000 tokens. A token is a piece of a word; one question with its answer usually uses between 1,000 and 4,000 tokens, because the documentation fragments are sent along with the question. There is also a shared daily budget for the whole demo. When you reach the daily limit, or the shared budget is used up, the assistant stops answering until 00:00 UTC, when budgets reset.",
+          "score": 0.406
+        }
+      ],
+      "usage": {
+        "inputTokens": 1367,
+        "outputTokens": 91,
+        "costUsd": 0.000182
+      },
+      "ms": 2633,
+      "firstTokenMs": 2341
+    },
+    {
+      "id": "lim-reset-time",
+      "kind": "paraphrase",
+      "section": "Usage limits and privacy › Daily limit",
+      "question": "I ran out of my daily allowance. When can I ask again?",
+      "expectDocs": [
+        "Usage limits and privacy"
+      ],
+      "mustInclude": [
+        [
+          "00:00 UTC",
+          "midnight UTC",
+          "UTC"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Usage limits and privacy"
+      ],
+      "note": "",
+      "answer": "You can ask again at 00:00 UTC, when the budgets reset. Until then, the assistant stops answering once you reach the daily limit or the shared budget is used up [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "42cf1790-a750-4d7d-bccd-a04c3b1c1a6f",
+          "documentTitle": "Usage limits and privacy",
+          "chunkId": 69,
+          "excerpt": "Usage limits and privacy › Daily limit\n\nEach visitor has a daily budget of 200,000 tokens. A token is a piece of a word; one question with its answer usually uses between 1,000 and 4,000 tokens, because the documentation fragments are sent along with the question. There is also a shared daily budget for the whole demo. When you reach the daily limit, or the shared budget is used up, the assistant stops answering until 00:00 UTC, when budgets reset.",
+          "score": 0.302
+        }
+      ],
+      "usage": {
+        "inputTokens": 1310,
+        "outputTokens": 94,
+        "costUsd": 0.000178
+      },
+      "ms": 2240,
+      "firstTokenMs": 2013
+    },
+    {
+      "id": "lim-cost-tracking",
+      "kind": "fact",
+      "section": "Usage limits and privacy › Cost tracking",
+      "question": "Does the assistant track how much each answer costs?",
+      "expectDocs": [
+        "Usage limits and privacy"
+      ],
+      "mustInclude": [
+        [
+          "US dollars",
+          "USD",
+          "cost"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Usage limits and privacy"
+      ],
+      "note": "",
+      "answer": "Yes. For every answer the assistant records the number of input and output tokens and the cost in US dollars [1]. The administrator sees daily totals in the admin panel, and the token count and cost of each answer are shown under the answer in the chat [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "42cf1790-a750-4d7d-bccd-a04c3b1c1a6f",
+          "documentTitle": "Usage limits and privacy",
+          "chunkId": 70,
+          "excerpt": "Usage limits and privacy › Cost tracking\n\nFor every answer the assistant records the number of input and output tokens and the cost in US dollars. The administrator sees daily totals in the admin panel. The token count and cost of each answer are also shown under the answer in the chat.",
+          "score": 0.554
+        }
+      ],
+      "usage": {
+        "inputTokens": 1276,
+        "outputTokens": 107,
+        "costUsd": 0.000181
+      },
+      "ms": 2437,
+      "firstTokenMs": 1965
+    },
+    {
+      "id": "lim-account",
+      "kind": "fact",
+      "section": "Usage limits and privacy › What is stored",
+      "question": "Do I need an account to use the chat, and what is stored about me?",
+      "expectDocs": [
+        "Usage limits and privacy"
+      ],
+      "mustInclude": [
+        [
+          "cookie"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Usage limits and privacy"
+      ],
+      "note": "",
+      "answer": "No, you do not need an account to use the chat [1].\n\nWhat is stored about you:\n- The browser receives a cookie with a random identifier, which links your conversations and limits together [1].\n- Questions and answers are stored in the database so a conversation can be continued after a page reload [1].\n- Nothing else about you is collected [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "42cf1790-a750-4d7d-bccd-a04c3b1c1a6f",
+          "documentTitle": "Usage limits and privacy",
+          "chunkId": 71,
+          "excerpt": "Usage limits and privacy › What is stored\n\nYou do not need an account to use the chat. The browser receives a cookie with a random identifier, which links your conversations and limits together. Questions and answers are stored in the database so a conversation can be continued after a page reload. Nothing else about you is collected.",
+          "score": 0.5
+        }
+      ],
+      "usage": {
+        "inputTokens": 1320,
+        "outputTokens": 127,
+        "costUsd": 0.000196
+      },
+      "ms": 2727,
+      "firstTokenMs": 2201
+    },
+    {
+      "id": "lim-stop",
+      "kind": "fact",
+      "section": "Usage limits and privacy › Stopping an answer",
+      "question": "What happens when I press Stop during an answer?",
+      "expectDocs": [
+        "Usage limits and privacy"
+      ],
+      "mustInclude": [
+        [
+          "cancel"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Usage limits and privacy"
+      ],
+      "note": "",
+      "answer": "Pressing Stop cancels the request to the language model immediately, so no tokens are spent on an answer nobody reads [1]. Closing the tab has the same effect [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "42cf1790-a750-4d7d-bccd-a04c3b1c1a6f",
+          "documentTitle": "Usage limits and privacy",
+          "chunkId": 72,
+          "excerpt": "Usage limits and privacy › Stopping an answer\n\nPressing Stop, or closing the tab, cancels the request to the language model immediately, so no tokens are spent on an answer nobody reads.",
+          "score": 0.309
+        }
+      ],
+      "usage": {
+        "inputTokens": 1284,
+        "outputTokens": 82,
+        "costUsd": 0.000169
+      },
+      "ms": 2235,
+      "firstTokenMs": 2072
+    },
+    {
+      "id": "ru-pro-price",
+      "kind": "ru",
+      "section": "Ledgerly: plans, billing and exports › Plans",
+      "question": "Сколько стоит тариф Pro?",
+      "expectDocs": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "mustInclude": [
+        [
+          "12"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: plans, billing and exports"
+      ],
+      "note": "",
+      "answer": "Тариф Pro стоит $12 в месяц. Он включает неограниченное число клиентов и счетов, повторяющиеся счета и напоминания об оплате [1]. При годовой оплате два месяца бесплатно [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "429cabbd-4a08-4d39-9e99-19c16480ef1b",
+          "documentTitle": "Ledgerly: plans, billing and exports",
+          "chunkId": 29,
+          "excerpt": "Ledgerly: plans, billing and exports › Plans\n\nLedgerly has three plans:\n\n- Free: up to 5 clients and 10 invoices per month.\n- Pro: $12 per month, unlimited clients and invoices, recurring invoices and payment reminders.\n- Team: $29 per month for up to 5 users, with roles and a shared client list.\n\nAnnual billing gives two months free. You can upgrade or downgrade at any time in Settings > Plan; the change is prorated on your next bill.",
+          "score": 0.141
+        }
+      ],
+      "usage": {
+        "inputTokens": 1387,
+        "outputTokens": 100,
+        "costUsd": 0.000189
+      },
+      "ms": 2782,
+      "firstTokenMs": 2455
+    },
+    {
+      "id": "ru-2fa",
+      "kind": "ru",
+      "section": "Ledgerly: account and security › Two-factor authentication",
+      "question": "Как включить двухфакторную аутентификацию?",
+      "expectDocs": [
+        "Ledgerly: account and security"
+      ],
+      "mustInclude": [
+        [
+          "QR",
+          "Settings > Security",
+          "Security"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: account and security"
+      ],
+      "note": "",
+      "answer": "Чтобы включить двухфакторную аутентификацию (2FA):\n\n- Откройте **Settings > Security > Two-factor authentication** и отсканируйте QR-код в приложении-аутентификаторе, например Google Authenticator или 1Password [1].\n- В конце процесса сохраните десять резервных кодов. Каждый код работает один раз и позволяет войти, если вы потеряли телефон [1].\n- Владельцы плана Team могут сделать 2FA обязательной для всех участников рабочего пространства [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "fe038256-4b4f-4647-9012-287e8aa8f227",
+          "documentTitle": "Ledgerly: account and security",
+          "chunkId": 54,
+          "excerpt": "Ledgerly: account and security › Two-factor authentication\n\nLedgerly supports two-factor authentication (2FA) with an authenticator app such as Google Authenticator or 1Password. Turn it on in Settings > Security > Two-factor authentication and scan the QR code. Save the ten backup codes shown at the end: each code works once and lets you sign in if you lose your phone.\n\nTeam plan owners can require 2FA for every member of the workspace.",
+          "score": 0.51
+        }
+      ],
+      "usage": {
+        "inputTokens": 1696,
+        "outputTokens": 210,
+        "costUsd": 0.000275
+      },
+      "ms": 2810,
+      "firstTokenMs": 2178
+    },
+    {
+      "id": "ru-webhook-retry",
+      "kind": "ru",
+      "section": "Ledgerly: integrations and API › Webhooks",
+      "question": "Сколько времени повторяется доставка вебхука, если она не удалась?",
+      "expectDocs": [
+        "Ledgerly: integrations and API"
+      ],
+      "mustInclude": [
+        [
+          "24"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: integrations and API"
+      ],
+      "note": "",
+      "answer": "Согласно документации, неудачные доставки вебхуков повторяются в течение до 24 часов [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "db3e8d13-3b72-4c41-bece-5571cd4cbb32",
+          "documentTitle": "Ledgerly: integrations and API",
+          "chunkId": 58,
+          "excerpt": "Ledgerly: integrations and API › Webhooks\n\nWebhooks notify your server when something happens, for example invoice.sent, invoice.viewed and invoice.paid. Add an endpoint URL in Settings > Webhooks. Each request is signed with an HMAC-SHA256 signature in the Ledgerly-Signature header, so you can verify that it came from Ledgerly. Failed deliveries are retried for up to 24 hours.",
+          "score": 0.03
+        }
+      ],
+      "usage": {
+        "inputTokens": 1323,
+        "outputTokens": 64,
+        "costUsd": 0.000164
+      },
+      "ms": 2230,
+      "firstTokenMs": 2060
+    },
+    {
+      "id": "multi-pro-api",
+      "kind": "multi",
+      "section": "Plans + API",
+      "question": "How much is the Pro plan, and can I use the REST API on it?",
+      "expectDocs": [
+        "Ledgerly: plans, billing and exports",
+        "Ledgerly: integrations and API"
+      ],
+      "mustInclude": [
+        [
+          "12"
+        ],
+        [
+          "API"
+        ]
+      ],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: integrations and API",
+        "Ledgerly: plans, billing and exports"
+      ],
+      "note": "",
+      "answer": "The Pro plan costs $12 per month and includes unlimited clients and invoices, recurring invoices and payment reminders [2].\n\nYes, the REST API is available on the Pro plan [1]. Create an API key in Settings > API keys; the key is shown only once, so store it securely [1]. The API is limited to 60 requests per minute per key [1].",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "db3e8d13-3b72-4c41-bece-5571cd4cbb32",
+          "documentTitle": "Ledgerly: integrations and API",
+          "chunkId": 57,
+          "excerpt": "Ledgerly: integrations and API › API\n\nThe Ledgerly REST API is available on the Pro and Team plans. Create an API key in Settings > API keys; the key is shown only once, so store it securely. Send it in the Authorization header as \"Bearer\" followed by the key.\n\nThe API is limited to 60 requests per minute per key. Requests over the limit receive HTTP status 429 with a Retry-After header.",
+          "score": 0.326
+        },
+        {
+          "index": 2,
+          "documentId": "429cabbd-4a08-4d39-9e99-19c16480ef1b",
+          "documentTitle": "Ledgerly: plans, billing and exports",
+          "chunkId": 29,
+          "excerpt": "Ledgerly: plans, billing and exports › Plans\n\nLedgerly has three plans:\n\n- Free: up to 5 clients and 10 invoices per month.\n- Pro: $12 per month, unlimited clients and invoices, recurring invoices and payment reminders.\n- Team: $29 per month for up to 5 users, with roles and a shared client list.\n\nAnnual billing gives two months free. You can upgrade or downgrade at any time in Settings > Plan; the change is prorated on your next bill.",
+          "score": 0.12
+        }
+      ],
+      "usage": {
+        "inputTokens": 1491,
+        "outputTokens": 147,
+        "costUsd": 0.000223
+      },
+      "ms": 2944,
+      "firstTokenMs": 2525
+    },
+    {
+      "id": "neg-peru",
+      "kind": "negative",
+      "section": "—",
+      "question": "What is the capital of Peru?",
+      "expectDocs": [],
+      "mustInclude": [],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [],
+      "note": "",
+      "answer": "The documentation does not cover that. The provided fragments only describe creating a Ledgerly workspace, so I can't answer questions about the capital of Peru.",
+      "citations": [],
+      "usage": {
+        "inputTokens": 513,
+        "outputTokens": 68,
+        "costUsd": 0.000085
+      },
+      "ms": 2316,
+      "firstTokenMs": 2130
+    },
+    {
+      "id": "neg-android",
+      "kind": "negative",
+      "section": "—",
+      "question": "Is there a Ledgerly mobile app for Android?",
+      "expectDocs": [],
+      "mustInclude": [],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [],
+      "note": "",
+      "answer": "The documentation does not cover whether Ledgerly has a mobile app for Android. The fragments describe the web app features (such as clients, invoices, billing, 2FA, API and exports) but say nothing about mobile apps.",
+      "citations": [],
+      "usage": {
+        "inputTokens": 1461,
+        "outputTokens": 100,
+        "costUsd": 0.000196
+      },
+      "ms": 3234,
+      "firstTokenMs": 2881
+    },
+    {
+      "id": "neg-salesforce",
+      "kind": "negative",
+      "section": "—",
+      "question": "How do I connect Ledgerly to Salesforce?",
+      "expectDocs": [],
+      "mustInclude": [],
+      "pass": true,
+      "retrieval": true,
+      "facts": true,
+      "cited": [
+        "Ledgerly: integrations and API"
+      ],
+      "note": "declined, pointed to related sections",
+      "answer": "The documentation does not cover connecting Ledgerly to Salesforce. The fragments only describe integrations with QuickBooks Online and Xero [1], Stripe and PayPal for online payments [2], and a webhooks and REST API setup [4][6]. None of them mention Salesforce.",
+      "citations": [
+        {
+          "index": 1,
+          "documentId": "db3e8d13-3b72-4c41-bece-5571cd4cbb32",
+          "documentTitle": "Ledgerly: integrations and API",
+          "chunkId": 56,
+          "excerpt": "Ledgerly: integrations and API › Accounting software\n\nLedgerly can sync paid invoices to QuickBooks Online and Xero once a day. Connect them in Settings > Integrations. Only invoices with the status Paid are synced, and each invoice is synced once.",
+          "score": 0.275
+        },
+        {
+          "index": 2,
+          "documentId": "db3e8d13-3b72-4c41-bece-5571cd4cbb32",
+          "documentTitle": "Ledgerly: integrations and API",
+          "chunkId": 55,
+          "excerpt": "Ledgerly: integrations and API › Online payments\n\nConnect Stripe or PayPal in Settings > Payments so clients can pay invoices by card or PayPal. When a payment succeeds, the invoice is marked Paid automatically. Ledgerly does not charge a fee on top of the payment provider's fees.",
+          "score": 0.239
+        },
+        {
+          "index": 4,
+          "documentId": "db3e8d13-3b72-4c41-bece-5571cd4cbb32",
+          "documentTitle": "Ledgerly: integrations and API",
+          "chunkId": 58,
+          "excerpt": "Ledgerly: integrations and API › Webhooks\n\nWebhooks notify your server when something happens, for example invoice.sent, invoice.viewed and invoice.paid. Add an endpoint URL in Settings > Webhooks. Each request is signed with an HMAC-SHA256 signature in the Ledgerly-Signature header, so you can verify that it came from Ledgerly. Failed deliveries are retried for up to 24 hours.",
+          "score": 0.189
+        },
+        {
+          "index": 6,
+          "documentId": "db3e8d13-3b72-4c41-bece-5571cd4cbb32",
+          "documentTitle": "Ledgerly: integrations and API",
+          "chunkId": 57,
+          "excerpt": "Ledgerly: integrations and API › API\n\nThe Ledgerly REST API is available on the Pro and Team plans. Create an API key in Settings > API keys; the key is shown only once, so store it securely. Send it in the Authorization header as \"Bearer\" followed by the key.\n\nThe API is limited to 60 requests per minute per key. Requests over the limit receive HTTP status 429 with a Retry-After header.",
+          "score": 0.123
+        }
+      ],
+      "usage": {
+        "inputTokens": 1398,
+        "outputTokens": 122,
+        "costUsd": 0.000201
+      },
+      "ms": 6377,
+      "firstTokenMs": 5742
+    }
+  ]
+}
