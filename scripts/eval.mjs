@@ -17,7 +17,7 @@ const only = process.env.ONLY?.split(',');
 const PACE_MS = 6500; // 10 questions per minute per visitor
 
 const DECLINE =
-  /not cover|doesn[’']t cover|does not (cover|mention|include|say|contain)|doesn[’']t (mention|say|include|contain)|no information|not mentioned|couldn[’']t find|cannot find|can[’']t find|не (содерж|описыва|упомина|покрыва)|нет (информации|ответа)/i;
+  /not cover|doesn[’']t cover|does not (cover|mention|include|say|contain)|doesn[’']t (mention|say|include|contain)|no information|not mentioned|couldn[’']t find|cannot find|can[’']t find|can[’']t answer|cannot answer|says? nothing about|не (содерж|описыва|упомина|покрыва)|нет (информации|ответа)/i;
 
 const { questions } = JSON.parse(await readFile(join(root, 'evals/questions.json'), 'utf8'));
 const selected = only ? questions.filter((q) => only.includes(q.id)) : questions;

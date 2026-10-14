@@ -7,7 +7,9 @@ Upload Markdown, PDF or web pages in the admin panel; a background worker indexe
 customers ask questions in a streaming chat answered by Claude. Search runs on local keyword embeddings, so Claude is
 the only paid API, and a keyless fake model makes local development and tests free.
 
-<!-- Live demo: add the Vercel URL here after deployment -->
+**Live demo:** https://docs-assistant-ruddy.vercel.app — ask about Ledgerly, a fictional invoicing app, or about the
+assistant itself. The API runs on a free plan that sleeps when idle, so the first answer after a pause can take up to
+a minute.
 
 ![Chat with a cited source](docs/screenshots/chat.png)
 
@@ -174,6 +176,8 @@ Free tiers: **Neon** (Postgres), **Upstash** (Redis), **Render** (API), **Vercel
    `API_URL` (the Render URL), and optionally `NEXT_PUBLIC_GITHUB_URL`, `NEXT_PUBLIC_DEMO_VIEWER_EMAIL`,
    `NEXT_PUBLIC_DEMO_VIEWER_PASSWORD` (same values as on Render).
 5. Load the demo documents into production: `API_URL=https://<render-url> ADMIN_EMAIL=... ADMIN_PASSWORD=... pnpm seed`.
+   After editing files in `corpus/`, run it again with `--replace`: each changed document is uploaded and indexed
+   before the old copy is deleted, so the chat never loses the content.
 
 With `NODE_ENV=production` the API refuses to start with the default admin password or JWT secret, and the visitor
 cookie is `Secure`.
